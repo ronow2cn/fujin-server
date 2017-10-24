@@ -1,0 +1,16 @@
+{
+    "common": {
+        "version": "0.0.1",
+        "logLevel": "Info",
+        "port":8080,
+        "images": "/home/mmog/data/wf/images",
+        "imagesurl":"https://www.esiyou.com/wf/images",
+
+        "dbCenter": "mongodb://127.0.0.1:27017/haa_mjc?authSource=admin"
+    },
+
+    "weixin": {
+        "appid":   "asd",
+        "appkey": "dsas"
+    }
+}

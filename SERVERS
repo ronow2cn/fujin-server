@@ -1,0 +1,3 @@
+SERVERS=(
+"fujin  ./fujin -config config.json -server fujin -log fujin.log"
+)

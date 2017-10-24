@@ -1,0 +1,5 @@
+bin/
+pkg/
+*.pem
+*.key
+*.DS_Store
