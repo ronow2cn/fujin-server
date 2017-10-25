@@ -2,7 +2,7 @@
 * @Author: huang
 * @Date:   2017-10-24 11:09:54
 * @Last Modified by:   huang
-* @Last Modified time: 2017-10-25 19:24:51
+* @Last Modified time: 2017-10-25 19:32:48
  */
 package controllers
 
@@ -32,6 +32,7 @@ func HelloHandler(w http.ResponseWriter, r *http.Request) {
 			},
 			Ts:      time.Now(),
 			Content: "content",
+			Anonymous: false,
 			Images:  []string{"https://www.esiyou.com/wf/images/20171025/1F2C3121.png", "https://www.esiyou.com/wf/images/20171025/1F2C3121.png"},
 		}
 

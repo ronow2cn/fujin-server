@@ -2,7 +2,7 @@
 * @Author: huang
 * @Date:   2017-10-25 17:07:01
 * @Last Modified by:   huang
-* @Last Modified time: 2017-10-25 19:28:11
+* @Last Modified time: 2017-10-25 19:32:16
  */
 package dbmgr
 
@@ -27,6 +27,7 @@ type Articles struct {
 	Ts         time.Time `bson:"ts"`         //写时间
 	Content    string    `bson:"content"`    //内容
 	Images     []string  `bson:"images"`     //图像地址
+	Anonymous  bool      `bson:"anon"`       //是否匿名
 }
 
 // ============================================================================
@@ -44,6 +45,8 @@ func WriteArticle(article *Articles) {
 	if len(article.Images) > 0 {
 		obj.Images = append(obj.Images, article.Images...)
 	}
+
+	obj.Anonymous = article.Anonymous
 
 	err := DBCenter.Insert(CTableArticles, &obj)
 	if err != nil {
