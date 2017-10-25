@@ -2,12 +2,13 @@
 * @Author: huang
 * @Date:   2017-10-24 14:21:05
 * @Last Modified by:   huang
-* @Last Modified time: 2017-10-24 17:49:10
+* @Last Modified time: 2017-10-25 16:45:31
  */
 package controllers
 
 import (
 	"comm/config"
+	"comm/dbmgr"
 	"comm/logger"
 	"encoding/binary"
 	"encoding/hex"
@@ -65,4 +66,23 @@ func FileExist(filename string) bool {
 
 func BuildTree(imageid string) error {
 	return os.MkdirAll(fmt.Sprintf("%s/%s", config.Common.Images, imageid[8:]), 0755)
+}
+
+//sessionKey 是要验证的验证码
+func CheckSessionKey(uid, sessionKey string) bool {
+	if sessionKey == config.Common.GmToken {
+		return true
+	}
+
+	user := dbmgr.CenterGetUserInfo(uid)
+	if user != nil {
+		return false
+	}
+
+	l := len(user.SessionKey)
+	if l > 0 && (user.SessionKey[:(l/2)] == sessionKey) {
+		return true
+	}
+
+	return false
 }

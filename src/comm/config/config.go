@@ -19,6 +19,7 @@ type commonT struct {
 	Port      int32  `json:"port"`
 	Images    string `json:"images"`
 	ImagesUrl string `json:"imagesurl"`
+	GmToken   string `json:"gmtoken"`
 }
 
 type weixinT struct {

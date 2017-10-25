@@ -9,7 +9,9 @@ import (
 
 const (
 	// center
-	CTableUsers = "users"
+	CTableUsers    = "users"
+	CTableArticles = "articles"
+	CTableSeqId    = "seqid"
 )
 
 // ============================================================================
@@ -27,7 +29,11 @@ func Open() {
 		DBCenter.Open(config.Common.DBCenter, false)
 	}
 
-	DBCenter.CreateIndex(CTableUsers, "idx_users", []string{"uid"}, true)
+	DBCenter.CreateIndex(CTableUsers, "uid", []string{"uid"}, true)
+
+	DBCenter.CreateIndex(CTableArticles, "loc", []string{"$2dsphere:loc"}, false)
+	DBCenter.CreateIndex(CTableArticles, "authorid", []string{"authorid"}, false)
+
 }
 
 func Close() {

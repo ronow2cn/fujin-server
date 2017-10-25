@@ -5,6 +5,7 @@
         "port":8080,
         "images": "/home/mmog/data/wf/images",
         "imagesurl":"https://www.esiyou.com/wf/images",
+        "gmtoken":"aea29eb2332f",
 
         "dbCenter": "mongodb://127.0.0.1:27017/haa_mjc?authSource=admin"
     },
