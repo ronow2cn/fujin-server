@@ -2,7 +2,7 @@
 * @Author: huang
 * @Date:   2017-10-24 11:07:21
 * @Last Modified by:   huang
-* @Last Modified time: 2017-10-24 16:41:03
+* @Last Modified time: 2017-10-25 15:07:59
  */
 package routers
 
@@ -42,6 +42,7 @@ func Routers() {
 	go func() {
 		r := mux.NewRouter()
 		r.HandleFunc("/", controllers.HelloHandler).Methods("GET")
+		r.HandleFunc("/login", controllers.LoginHandler).Methods("POST")
 		r.HandleFunc("/uploadfile", controllers.UploadFileHandler).Methods("POST")
 
 		httpServer(r)

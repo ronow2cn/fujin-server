@@ -10,7 +10,8 @@
     },
 
     "weixin": {
-        "appid":   "asd",
-        "appkey": "dsas"
+        "appid":   "wx457ccda35782a63a",
+        "appkey": "f237a209d86caea29eb2332f2c321937",
+        "code2sessurl": "https://api.weixin.qq.com/sns/jscode2session"
     }
 }

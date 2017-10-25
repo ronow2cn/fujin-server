@@ -22,8 +22,9 @@ type commonT struct {
 }
 
 type weixinT struct {
-	AppId  string `json:"appid"`
-	AppKey string `json:"appkey"`
+	AppId           string `json:"appid"`
+	AppKey          string `json:"appkey"`
+	Code2SessionUrl string `json:"code2sessurl"`
 }
 
 // ============================================================================
