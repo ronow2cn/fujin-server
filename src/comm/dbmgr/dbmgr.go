@@ -12,6 +12,7 @@ const (
 	CTableUsers    = "users"
 	CTableArticles = "articles"
 	CTableSeqId    = "seqid"
+	CTableCallback = "callback"
 )
 
 // ============================================================================

@@ -2,7 +2,7 @@
 * @Author: huang
 * @Date:   2017-10-25 17:07:01
 * @Last Modified by:   huang
-* @Last Modified time: 2017-10-25 19:32:16
+* @Last Modified time: 2017-10-26 11:37:09
  */
 package dbmgr
 
@@ -39,7 +39,7 @@ func WriteArticle(article *Articles) {
 	obj.AuthorName = article.AuthorName
 	obj.AuthorHead = article.AuthorHead
 	obj.Loc = article.Loc
-	obj.Ts = time.Now()
+	obj.Ts = article.Ts
 	obj.Content = article.Content
 
 	if len(article.Images) > 0 {

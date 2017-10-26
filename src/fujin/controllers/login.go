@@ -2,7 +2,7 @@
 * @Author: huang
 * @Date:   2017-10-25 15:08:47
 * @Last Modified by:   huang
-* @Last Modified time: 2017-10-25 16:32:56
+* @Last Modified time: 2017-10-26 11:28:15
  */
 package controllers
 
@@ -12,9 +12,14 @@ import (
 	"comm/dbmgr"
 	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"net/http"
 	"time"
 )
+
+type LoginReq struct {
+	Code string `json:"code"`
+}
 
 type WeiXinAuthRes struct {
 	OpenId     string `json:"openid"`
@@ -24,21 +29,31 @@ type WeiXinAuthRes struct {
 }
 
 func LoginHandler(w http.ResponseWriter, r *http.Request) {
-	code := r.PostFormValue("code")
-	if len(code) == 0 {
-		log.Error("code error", code)
-		w.Write([]byte(ErrLoginFailed))
+	r.ParseForm() //解析参数，默认是不会解析的
+	if r.Method != "POST" {
 		return
 	}
 
+	result, _ := ioutil.ReadAll(r.Body)
+	r.Body.Close()
+
+	var req LoginReq
+	err := json.Unmarshal([]byte(result), &req)
+	if err != nil {
+		log.Error("json Unmarshal error", result, err)
+		w.Write([]byte(ErrEditFailed))
+		return
+	}
+	log.Info(req)
+
 	url := fmt.Sprintf("%s?appid=%s&secret=%s&js_code=%s&grant_type=authorization_code",
-		config.WeiXin.Code2SessionUrl, config.WeiXin.AppId, config.WeiXin.AppKey, code)
+		config.WeiXin.Code2SessionUrl, config.WeiXin.AppId, config.WeiXin.AppKey, req.Code)
 	log.Info("LoginHandler", url)
 
 	// 用code去微信换取session_key
 	ret, err := comm.HttpGetT(url, 5)
 	if err != nil {
-		log.Error("code to weixin auth error", code, err)
+		log.Error("code to weixin auth error", req.Code, err)
 		w.Write([]byte(ErrLoginFailed))
 		return
 	}

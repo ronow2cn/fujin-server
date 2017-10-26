@@ -2,7 +2,7 @@
 * @Author: huang
 * @Date:   2017-10-24 14:21:05
 * @Last Modified by:   huang
-* @Last Modified time: 2017-10-25 16:45:31
+* @Last Modified time: 2017-10-26 11:52:44
  */
 package controllers
 
@@ -75,7 +75,7 @@ func CheckSessionKey(uid, sessionKey string) bool {
 	}
 
 	user := dbmgr.CenterGetUserInfo(uid)
-	if user != nil {
+	if user == nil {
 		return false
 	}
 
