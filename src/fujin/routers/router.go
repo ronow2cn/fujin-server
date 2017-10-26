@@ -2,7 +2,7 @@
 * @Author: huang
 * @Date:   2017-10-24 11:07:21
 * @Last Modified by:   huang
-* @Last Modified time: 2017-10-26 11:57:08
+* @Last Modified time: 2017-10-26 15:42:10
  */
 package routers
 
@@ -45,7 +45,9 @@ func Routers() {
 		r.HandleFunc("/login", controllers.LoginHandler).Methods("POST")
 		r.HandleFunc("/uploadfile", controllers.UploadFileHandler).Methods("POST")
 		r.HandleFunc("/edit", controllers.EditHandler).Methods("POST")
+		r.HandleFunc("/found", controllers.FoundHandler).Methods("POST")
 		r.HandleFunc("/callback", controllers.CallBackHandler).Methods("POST")
+		r.HandleFunc("/comment", controllers.CommentHandler).Methods("POST")
 
 		httpServer(r)
 	}()

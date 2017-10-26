@@ -2,7 +2,7 @@
 * @Author: huang
 * @Date:   2017-10-25 15:08:47
 * @Last Modified by:   huang
-* @Last Modified time: 2017-10-26 11:28:15
+* @Last Modified time: 2017-10-26 14:25:04
  */
 package controllers
 
@@ -27,6 +27,8 @@ type WeiXinAuthRes struct {
 	Expire     int32  `json:"expires_in"`
 	Unionid    string `json:"unionid"`
 }
+
+// ============================================================================
 
 func LoginHandler(w http.ResponseWriter, r *http.Request) {
 	r.ParseForm() //解析参数，默认是不会解析的

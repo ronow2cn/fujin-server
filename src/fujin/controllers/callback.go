@@ -2,7 +2,7 @@
 * @Author: huang
 * @Date:   2017-10-26 11:57:22
 * @Last Modified by:   huang
-* @Last Modified time: 2017-10-26 12:08:50
+* @Last Modified time: 2017-10-26 14:25:14
  */
 
 package controllers
@@ -19,6 +19,8 @@ type CallBackReq struct {
 	Name    string `json:"name"`
 	Content string `json:"content"`
 }
+
+// ============================================================================
 
 func CallBackHandler(w http.ResponseWriter, r *http.Request) {
 	r.ParseForm() //解析参数，默认是不会解析的

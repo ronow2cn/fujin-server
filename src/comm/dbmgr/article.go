@@ -2,11 +2,12 @@
 * @Author: huang
 * @Date:   2017-10-25 17:07:01
 * @Last Modified by:   huang
-* @Last Modified time: 2017-10-26 11:37:09
+* @Last Modified time: 2017-10-26 14:20:49
  */
 package dbmgr
 
 import (
+	"comm/config"
 	"comm/db"
 	"time"
 )
@@ -93,8 +94,8 @@ func GetArticlesByAuthorId(authorid string) (ret []*Articles) {
 
 func GetArticlesByLocation(longitude, latitude float64, distance int32) (ret []*Articles) {
 	Arr := []float64{longitude, latitude}
-	if distance <= 0 || distance > 100000 {
-		distance = 3000
+	if distance <= 0 || distance > config.Common.MaxDistance {
+		distance = config.Common.MaxDistance
 	}
 
 	err := DBCenter.GetAllObjectsByCond(

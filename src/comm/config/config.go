@@ -10,16 +10,17 @@ import (
 // ============================================================================
 
 type commonT struct {
-	Version   string `json:"version"`
-	VerMajor  string `json:"-"`
-	VerMinor  string `json:"-"`
-	VerBuild  string `json:"-"`
-	LogLevel  string `json:"logLevel"`
-	DBCenter  string `json:"dbCenter"`
-	Port      int32  `json:"port"`
-	Images    string `json:"images"`
-	ImagesUrl string `json:"imagesurl"`
-	GmToken   string `json:"gmtoken"`
+	Version     string `json:"version"`
+	VerMajor    string `json:"-"`
+	VerMinor    string `json:"-"`
+	VerBuild    string `json:"-"`
+	LogLevel    string `json:"logLevel"`
+	DBCenter    string `json:"dbCenter"`
+	Port        int32  `json:"port"`
+	Images      string `json:"images"`
+	ImagesUrl   string `json:"imagesurl"`
+	GmToken     string `json:"gmtoken"`
+	MaxDistance int32  `json:"maxdistance"`
 }
 
 type weixinT struct {

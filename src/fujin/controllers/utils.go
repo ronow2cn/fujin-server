@@ -2,7 +2,7 @@
 * @Author: huang
 * @Date:   2017-10-24 14:21:05
 * @Last Modified by:   huang
-* @Last Modified time: 2017-10-26 11:52:44
+* @Last Modified time: 2017-10-26 14:45:01
  */
 package controllers
 
@@ -13,6 +13,7 @@ import (
 	"encoding/binary"
 	"encoding/hex"
 	"fmt"
+	"math"
 	"math/rand"
 	"os"
 	"strings"
@@ -85,4 +86,17 @@ func CheckSessionKey(uid, sessionKey string) bool {
 	}
 
 	return false
+}
+
+// 返回值的单位为米
+func EarthDistance(lng1, lat1, lng2, lat2 float64) float64 {
+	radius := float64(6371000) // 6378137
+	rad := math.Pi / 180.0
+	lat1 = lat1 * rad
+	lng1 = lng1 * rad
+	lat2 = lat2 * rad
+	lng2 = lng2 * rad
+	theta := lng2 - lng1
+	dist := math.Acos(math.Sin(lat1)*math.Sin(lat2) + math.Cos(lat1)*math.Cos(lat2)*math.Cos(theta))
+	return dist * radius
 }

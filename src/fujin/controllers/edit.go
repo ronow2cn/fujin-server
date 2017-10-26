@@ -2,7 +2,7 @@
 * @Author: huang
 * @Date:   2017-10-26 10:03:30
 * @Last Modified by:   huang
-* @Last Modified time: 2017-10-26 11:34:53
+* @Last Modified time: 2017-10-26 14:36:06
  */
 package controllers
 
@@ -15,7 +15,6 @@ import (
 )
 
 type Location struct {
-	Type        string    `json:"type"`
 	Coordinates []float64 `json:"coordinates"`
 }
 
@@ -29,6 +28,8 @@ type ArticleReq struct {
 	Images     []string  `json:"images"`     //图像地址
 	Anonymous  bool      `json:"anon"`       //是否匿名
 }
+
+// ============================================================================
 
 func EditHandler(w http.ResponseWriter, r *http.Request) {
 	r.ParseForm() //解析参数，默认是不会解析的
@@ -55,12 +56,18 @@ func EditHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	if len(req.Loc.Coordinates) != 2 {
+		log.Error("Coordinates error", req.Loc.Coordinates)
+		w.Write([]byte(ErrEditFailed))
+		return
+	}
+
 	dbmgr.WriteArticle(&dbmgr.Articles{
 		AuthorId:   req.AuthorId,
 		AuthorName: req.AuthorName,
 		AuthorHead: req.AuthorHead,
 		Loc: &dbmgr.Location{
-			Type:        req.Loc.Type,
+			Type:        "Point",
 			Coordinates: req.Loc.Coordinates,
 		},
 		Ts:        time.Now(),
