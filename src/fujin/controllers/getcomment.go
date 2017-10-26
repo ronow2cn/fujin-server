@@ -2,7 +2,7 @@
 * @Author: huang
 * @Date:   2017-10-26 16:25:55
 * @Last Modified by:   huang
-* @Last Modified time: 2017-10-26 17:03:26
+* @Last Modified time: 2017-10-26 17:55:50
  */
 package controllers
 
@@ -85,7 +85,7 @@ func GetCommentHandler(w http.ResponseWriter, r *http.Request) {
 		isRes = true
 	}
 
-	res.N = dbmgr.GetCommentsCount(req.ArticleId)
+	res.N = cmts.CmtCnt
 
 	if !isRes {
 		w.Write([]byte(Success))

@@ -2,7 +2,7 @@
 * @Author: huang
 * @Date:   2017-10-26 15:26:00
 * @Last Modified by:   huang
-* @Last Modified time: 2017-10-26 17:03:07
+* @Last Modified time: 2017-10-26 17:55:20
  */
 package dbmgr
 
@@ -23,8 +23,9 @@ type CommentOne struct {
 }
 
 type Comments struct {
-	Id  string        `bson:"_id"` //文章Id
-	Cmt []*CommentOne `bson:"cmt"` //评论组
+	Id     string        `bson:"_id"` //文章Id
+	CmtCnt int32         `bson:"cmtcnt"`
+	Cmt    []*CommentOne `bson:"cmt"` //评论组
 }
 
 // ============================================================================
@@ -46,11 +47,6 @@ func GetComments(id string) *Comments {
 		// failed
 		return nil
 	}
-}
-
-func GetCommentsCount(id string) int32 {
-
-	return 1
 }
 
 func WriteComment(id string, cmt *CommentOne) {
@@ -75,6 +71,7 @@ func WriteComment(id string, cmt *CommentOne) {
 			"$push": db.M{
 				"cmt": &obj,
 			},
+			"$inc": db.M{"cmtcnt": 1},
 		},
 	)
 
