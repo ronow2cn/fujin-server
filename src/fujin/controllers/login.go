@@ -2,7 +2,7 @@
 * @Author: huang
 * @Date:   2017-10-25 15:08:47
 * @Last Modified by:   huang
-* @Last Modified time: 2017-10-26 14:25:04
+* @Last Modified time: 2017-10-26 17:08:21
  */
 package controllers
 
@@ -16,6 +16,8 @@ import (
 	"net/http"
 	"time"
 )
+
+// ============================================================================
 
 type LoginReq struct {
 	Code string `json:"code"`

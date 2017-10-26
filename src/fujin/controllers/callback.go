@@ -2,7 +2,7 @@
 * @Author: huang
 * @Date:   2017-10-26 11:57:22
 * @Last Modified by:   huang
-* @Last Modified time: 2017-10-26 14:25:14
+* @Last Modified time: 2017-10-26 17:08:05
  */
 
 package controllers
@@ -13,6 +13,8 @@ import (
 	"io/ioutil"
 	"net/http"
 )
+
+// ============================================================================
 
 type CallBackReq struct {
 	Uid     string `json:"uid"`

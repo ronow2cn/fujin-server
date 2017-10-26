@@ -2,7 +2,7 @@
 * @Author: huang
 * @Date:   2017-10-26 14:14:30
 * @Last Modified by:   huang
-* @Last Modified time: 2017-10-26 15:07:52
+* @Last Modified time: 2017-10-26 17:08:15
  */
 package controllers
 
@@ -12,6 +12,8 @@ import (
 	"io/ioutil"
 	"net/http"
 )
+
+// ============================================================================
 
 type FoundReq struct {
 	SessionKey string  `json:"sessionkey"` //session_key

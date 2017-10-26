@@ -2,7 +2,7 @@
 * @Author: huang
 * @Date:   2017-10-26 10:03:30
 * @Last Modified by:   huang
-* @Last Modified time: 2017-10-26 14:36:06
+* @Last Modified time: 2017-10-26 17:08:11
  */
 package controllers
 
@@ -13,6 +13,8 @@ import (
 	"net/http"
 	"time"
 )
+
+// ============================================================================
 
 type Location struct {
 	Coordinates []float64 `json:"coordinates"`

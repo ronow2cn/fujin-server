@@ -2,7 +2,7 @@
 * @Author: huang
 * @Date:   2017-10-24 11:09:54
 * @Last Modified by:   huang
-* @Last Modified time: 2017-10-25 19:32:48
+* @Last Modified time: 2017-10-26 17:08:27
  */
 package controllers
 
@@ -12,6 +12,8 @@ import (
 	"net/http"
 	//"time"
 )
+
+// ============================================================================
 
 func HelloHandler(w http.ResponseWriter, r *http.Request) {
 	a := dbmgr.GetArticlesByAuthorId("authorid")

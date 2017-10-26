@@ -2,15 +2,19 @@
 * @Author: huang
 * @Date:   2017-10-26 15:22:38
 * @Last Modified by:   huang
-* @Last Modified time: 2017-10-26 15:51:11
+* @Last Modified time: 2017-10-26 17:08:09
  */
 package controllers
 
 import (
 	"comm/dbmgr"
+	"encoding/json"
+	"io/ioutil"
 	"net/http"
 	"time"
 )
+
+// ============================================================================
 
 type CommentReq struct {
 	SessionKey string    `json:"sessionkey"` //session_key
@@ -26,18 +30,48 @@ type CommentReq struct {
 // ============================================================================
 
 func CommentHandler(w http.ResponseWriter, r *http.Request) {
-	c := &dbmgr.CommentOne{
-		CUid:  "comment1",
-		CName: "name",
-		CHead: "head",
-		Loc: &dbmgr.Location{
-			Type:        "Point",
-			Coordinates: []float64{104.066541, 30.572269},
-		},
-		Ts:        time.Now(),
-		Content:   "content",
-		Anonymous: false,
+	r.ParseForm() //解析参数，默认是不会解析的
+	if r.Method != "POST" {
+		return
 	}
 
-	dbmgr.WriteComment("15089300623", c)
+	result, _ := ioutil.ReadAll(r.Body)
+	r.Body.Close()
+
+	var req CommentReq
+	err := json.Unmarshal([]byte(result), &req)
+	log.Info(req)
+
+	if err != nil {
+		log.Error("json Unmarshal error", result, err)
+		w.Write([]byte(ErrCommentFailed))
+		return
+	}
+
+	if !CheckSessionKey(req.Uid, req.SessionKey) {
+		log.Error("CheckSessionKey error", req.Uid, req.SessionKey)
+		w.Write([]byte(ErrCommentFailed))
+		return
+	}
+
+	if len(req.Loc.Coordinates) != 2 {
+		log.Error("Coordinates error", req.Loc.Coordinates)
+		w.Write([]byte(ErrCommentFailed))
+		return
+	}
+
+	dbmgr.WriteComment(req.ArticleId, &dbmgr.CommentOne{
+		CUid:  req.Uid,
+		CName: req.Name,
+		CHead: req.Head,
+		Loc: &dbmgr.Location{
+			Type:        "Point",
+			Coordinates: req.Loc.Coordinates,
+		},
+		Ts:        time.Now(),
+		Content:   req.Content,
+		Anonymous: req.Anonymous,
+	})
+
+	w.Write([]byte(Success))
 }

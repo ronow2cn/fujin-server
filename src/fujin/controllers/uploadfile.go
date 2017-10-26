@@ -2,7 +2,7 @@
 * @Author: huang
 * @Date:   2017-10-24 15:44:39
 * @Last Modified by:   huang
-* @Last Modified time: 2017-10-24 17:59:18
+* @Last Modified time: 2017-10-26 17:08:24
  */
 package controllers
 
@@ -11,6 +11,8 @@ import (
 	"net/http"
 	"os"
 )
+
+// ============================================================================
 
 func UploadFileHandler(w http.ResponseWriter, r *http.Request) {
 	//上传参数为uploadfile

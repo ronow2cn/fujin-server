@@ -2,7 +2,7 @@
 * @Author: huang
 * @Date:   2017-10-24 11:07:21
 * @Last Modified by:   huang
-* @Last Modified time: 2017-10-26 15:42:10
+* @Last Modified time: 2017-10-26 16:26:41
  */
 package routers
 
@@ -48,6 +48,7 @@ func Routers() {
 		r.HandleFunc("/found", controllers.FoundHandler).Methods("POST")
 		r.HandleFunc("/callback", controllers.CallBackHandler).Methods("POST")
 		r.HandleFunc("/comment", controllers.CommentHandler).Methods("POST")
+		r.HandleFunc("/getcomment", controllers.GetCommentHandler).Methods("POST")
 
 		httpServer(r)
 	}()
