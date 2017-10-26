@@ -2,7 +2,7 @@
 * @Author: huang
 * @Date:   2017-10-26 15:26:00
 * @Last Modified by:   huang
-* @Last Modified time: 2017-10-26 17:55:20
+* @Last Modified time: 2017-10-26 17:58:49
  */
 package dbmgr
 
@@ -23,9 +23,9 @@ type CommentOne struct {
 }
 
 type Comments struct {
-	Id     string        `bson:"_id"` //文章Id
-	CmtCnt int32         `bson:"cmtcnt"`
-	Cmt    []*CommentOne `bson:"cmt"` //评论组
+	Id     string        `bson:"_id"`    //文章Id
+	CmtCnt int32         `bson:"cmtcnt"` //评论数量
+	Cmt    []*CommentOne `bson:"cmt"`    //评论组
 }
 
 // ============================================================================
