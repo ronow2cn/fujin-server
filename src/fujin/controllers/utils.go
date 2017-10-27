@@ -100,3 +100,21 @@ func EarthDistance(lng1, lat1, lng2, lat2 float64) float64 {
 	dist := math.Acos(math.Sin(lat1)*math.Sin(lat2) + math.Cos(lat1)*math.Cos(lat2)*math.Cos(theta))
 	return dist * radius
 }
+
+//距今多久之前
+func TimeGapStr(ts time.Time) string {
+	gap := time.Since(ts).Minutes()
+
+	if gap <= 0 {
+		return "刚刚"
+	} else if gap < 60 {
+		return fmt.Sprintf("%d分钟前", int32(gap))
+	} else if gap < 1440 {
+		return fmt.Sprintf("%d小时前", int32(gap)/60)
+	} else {
+		_, m, d := ts.Date()
+		return fmt.Sprintf("%d/%d", d, m)
+	}
+
+	return "long time ago"
+}

@@ -26,7 +26,7 @@ type CommentOne struct {
 	CName    string `json:"name"`     //评论者名字
 	CHead    string `json:"head"`     //评论者头像
 	Distance int32  `json:"distance"` //写的距离
-	Ts       int64  `json:"ts"`       //写时间
+	Ts       string `json:"ts"`       //写时间
 	Content  string `bson:"content"`  //内容
 }
 
@@ -84,7 +84,7 @@ func GetCommentHandler(w http.ResponseWriter, r *http.Request) {
 		one.CHead = v.CHead
 		one.Content = v.Content
 		one.Distance = int32(EarthDistance(req.Loc.Coordinates[0], req.Loc.Coordinates[1], v.Loc.Coordinates[0], v.Loc.Coordinates[1]))
-		one.Ts = v.Ts.Unix()
+		one.Ts = TimeGapStr(v.Ts)
 
 		res.Cmt = append(res.Cmt, one)
 		isRes = true

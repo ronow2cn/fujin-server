@@ -29,7 +29,7 @@ type articleOneRes struct {
 	Content    string   `json:"content"`    //内容
 	Images     []string `json:"images"`     //图像地址
 	Distance   int32    `json:"distance"`   //距离
-	Ts         int64    `json:"ts"`         //时间
+	Ts         string   `json:"ts"`         //时间
 }
 
 type FoundRes struct {
@@ -88,7 +88,7 @@ func FoundHandler(w http.ResponseWriter, r *http.Request) {
 		one.Content = v.Content
 		one.Images = v.Images
 		one.Distance = int32(EarthDistance(req.Loc.Coordinates[0], req.Loc.Coordinates[1], v.Loc.Coordinates[0], v.Loc.Coordinates[1]))
-		one.Ts = v.Ts.Unix()
+		one.Ts = TimeGapStr(v.Ts)
 
 		res.Articles = append(res.Articles, one)
 		isRes = true
