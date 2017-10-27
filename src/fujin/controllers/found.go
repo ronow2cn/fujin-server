@@ -2,7 +2,7 @@
 * @Author: huang
 * @Date:   2017-10-26 14:14:30
 * @Last Modified by:   huang
-* @Last Modified time: 2017-10-26 17:08:15
+* @Last Modified time: 2017-10-27 16:03:59
  */
 package controllers
 
@@ -16,11 +16,10 @@ import (
 // ============================================================================
 
 type FoundReq struct {
-	SessionKey string  `json:"sessionkey"` //session_key
-	Uid        string  `json:"uid"`
-	IsSelf     bool    `json:"isself"`
-	Longitude  float64 `json:"longitude"`
-	Latitude   float64 `json:"latitude"`
+	SessionKey string    `json:"sessionkey"` //session_key
+	Uid        string    `json:"uid"`
+	IsSelf     bool      `json:"isself"`
+	Loc        *Location `json:"loc"` //写的位置
 }
 
 type articleOneRes struct {
@@ -58,6 +57,12 @@ func FoundHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	if len(req.Loc.Coordinates) != 2 {
+		log.Error("Coordinates error", req.Loc.Coordinates)
+		w.Write([]byte(ErrFoundFailed))
+		return
+	}
+
 	if !CheckSessionKey(req.Uid, req.SessionKey) {
 		log.Error("CheckSessionKey error", req.Uid, req.SessionKey)
 		w.Write([]byte(ErrFoundFailed))
@@ -68,7 +73,7 @@ func FoundHandler(w http.ResponseWriter, r *http.Request) {
 	if req.IsSelf {
 		arr = dbmgr.GetArticlesByAuthorId(req.Uid)
 	} else {
-		arr = dbmgr.GetArticlesByLocation(req.Longitude, req.Latitude, 0)
+		arr = dbmgr.GetArticlesByLocation(req.Loc.Coordinates[0], req.Loc.Coordinates[1], 0)
 	}
 
 	isRes := false
@@ -82,7 +87,7 @@ func FoundHandler(w http.ResponseWriter, r *http.Request) {
 		one.AuthorHead = v.AuthorHead
 		one.Content = v.Content
 		one.Images = v.Images
-		one.Distance = int32(EarthDistance(req.Longitude, req.Latitude, v.Loc.Coordinates[0], v.Loc.Coordinates[1]))
+		one.Distance = int32(EarthDistance(req.Loc.Coordinates[0], req.Loc.Coordinates[1], v.Loc.Coordinates[0], v.Loc.Coordinates[1]))
 		one.Ts = v.Ts.Unix()
 
 		res.Articles = append(res.Articles, one)

@@ -2,7 +2,7 @@
 * @Author: huang
 * @Date:   2017-10-26 16:25:55
 * @Last Modified by:   huang
-* @Last Modified time: 2017-10-26 17:55:50
+* @Last Modified time: 2017-10-27 16:03:26
  */
 package controllers
 
@@ -16,11 +16,10 @@ import (
 // ============================================================================
 
 type GetCommentReq struct {
-	SessionKey string  `json:"sessionkey"` //session_key
-	Uid        string  `json:"uid"`        //自己的uid
-	ArticleId  string  `json:"articleid"`  //评论的文章Id
-	Longitude  float64 `json:"longitude"`  //自己的位置
-	Latitude   float64 `json:"latitude"`   //自己的位置
+	SessionKey string    `json:"sessionkey"` //session_key
+	Uid        string    `json:"uid"`        //自己的uid
+	ArticleId  string    `json:"articleid"`  //评论的文章Id
+	Loc        *Location `json:"loc"`        //写的位置
 }
 
 type CommentOne struct {
@@ -57,6 +56,12 @@ func GetCommentHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	if len(req.Loc.Coordinates) != 2 {
+		log.Error("Coordinates error", req.Loc.Coordinates)
+		w.Write([]byte(ErrGetCommentFailed))
+		return
+	}
+
 	if !CheckSessionKey(req.Uid, req.SessionKey) {
 		log.Error("CheckSessionKey error", req.Uid, req.SessionKey)
 		w.Write([]byte(ErrGetCommentFailed))
@@ -78,7 +83,7 @@ func GetCommentHandler(w http.ResponseWriter, r *http.Request) {
 		one.CName = v.CName
 		one.CHead = v.CHead
 		one.Content = v.Content
-		one.Distance = int32(EarthDistance(req.Longitude, req.Latitude, v.Loc.Coordinates[0], v.Loc.Coordinates[1]))
+		one.Distance = int32(EarthDistance(req.Loc.Coordinates[0], req.Loc.Coordinates[1], v.Loc.Coordinates[0], v.Loc.Coordinates[1]))
 		one.Ts = v.Ts.Unix()
 
 		res.Cmt = append(res.Cmt, one)
