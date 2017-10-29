@@ -21,6 +21,22 @@ type seqid_t struct {
 
 // ============================================================================
 
+func CenterCreateSeqId() {
+	if DBCenter.HasCollection(CTableSeqId) {
+		return
+	}
+
+	var obj seqid_t
+
+	obj.Id = 1
+	obj.ArticleId = 999999
+
+	err := DBCenter.Insert(CTableSeqId, &obj)
+	if err != nil {
+		log.Error("dbmgr.Center_CreateSeqId() failed:", err)
+	}
+}
+
 func GenArticleId() string {
 	var obj seqid_t
 

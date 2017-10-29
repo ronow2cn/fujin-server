@@ -31,6 +31,8 @@ func Open() {
 		DBCenter.Open(config.Common.DBCenter, false)
 	}
 
+	CenterCreateSeqId()
+
 	DBCenter.CreateIndex(CTableUsers, "uid", []string{"uid"}, true)
 
 	DBCenter.CreateIndex(CTableArticles, "loc", []string{"$2dsphere:loc"}, false)
