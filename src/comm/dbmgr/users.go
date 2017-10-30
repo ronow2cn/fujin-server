@@ -52,7 +52,7 @@ func CenterUpdateUserInfo(uid string, sessionkey string, expire time.Time, union
 	)
 
 	if err != nil {
-		log.Warning("save arena rank data failed:", err)
+		log.Warning("save user data failed:", err)
 	}
 
 	return err
