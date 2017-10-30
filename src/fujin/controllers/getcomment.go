@@ -2,7 +2,7 @@
 * @Author: huang
 * @Date:   2017-10-26 16:25:55
 * @Last Modified by:   huang
-* @Last Modified time: 2017-10-27 16:03:26
+* @Last Modified time: 2017-10-30 16:13:20
  */
 package controllers
 
@@ -31,8 +31,9 @@ type CommentOne struct {
 }
 
 type GetCommentRes struct {
-	N   int32         `json:n`     //总评论数
-	Cmt []*CommentOne `json:"cmt"` //评论组
+	ErrorCode int32         `json:"errorcode"` //错误码
+	N         int32         `json:n`           //总评论数
+	Cmt       []*CommentOne `json:"cmt"`       //评论组
 }
 
 // ============================================================================
@@ -91,9 +92,10 @@ func GetCommentHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	res.N = cmts.CmtCnt
+	res.ErrorCode = 200
 
 	if !isRes {
-		w.Write([]byte(Success))
+		w.Write([]byte(ErrGetCommentFailed))
 		return
 	}
 

@@ -2,7 +2,7 @@
 * @Author: huang
 * @Date:   2017-10-26 14:14:30
 * @Last Modified by:   huang
-* @Last Modified time: 2017-10-30 12:06:35
+* @Last Modified time: 2017-10-30 16:14:22
  */
 package controllers
 
@@ -33,7 +33,8 @@ type articleOneRes struct {
 }
 
 type FoundRes struct {
-	Articles []*articleOneRes `json:"articles"`
+	ErrorCode int32            `json:"errorcode"` //错误码
+	Articles  []*articleOneRes `json:"articles"`
 }
 
 // ============================================================================
@@ -93,9 +94,10 @@ func FoundHandler(w http.ResponseWriter, r *http.Request) {
 		res.Articles = append(res.Articles, one)
 		isRes = true
 	}
+	res.ErrorCode = 200
 
 	if !isRes {
-		w.Write([]byte(Success))
+		w.Write([]byte(ErrFoundFailed))
 		return
 	}
 
