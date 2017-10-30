@@ -2,7 +2,7 @@
 * @Author: huang
 * @Date:   2017-10-26 14:14:30
 * @Last Modified by:   huang
-* @Last Modified time: 2017-10-27 16:03:59
+* @Last Modified time: 2017-10-30 12:06:35
  */
 package controllers
 
@@ -23,7 +23,7 @@ type FoundReq struct {
 }
 
 type articleOneRes struct {
-	Id         string   `json:id`           //文章id
+	Id         string   `json:"id"`         //文章id
 	AuthorName string   `json:"authorname"` //作者名字
 	AuthorHead string   `json:"authorhead"` //作者头像
 	Content    string   `json:"content"`    //内容
