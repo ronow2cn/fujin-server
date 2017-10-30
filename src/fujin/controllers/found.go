@@ -2,7 +2,7 @@
 * @Author: huang
 * @Date:   2017-10-26 14:14:30
 * @Last Modified by:   huang
-* @Last Modified time: 2017-10-30 16:14:22
+* @Last Modified time: 2017-10-30 17:42:33
  */
 package controllers
 
@@ -73,6 +73,8 @@ func FoundHandler(w http.ResponseWriter, r *http.Request) {
 	var arr []*dbmgr.Articles
 	if req.IsSelf {
 		arr = dbmgr.GetArticlesByAuthorId(req.Uid)
+		//arr = dbmgr.GetArticlesByAuthorIdLimit(req.Uid, 4, 100)
+
 	} else {
 		arr = dbmgr.GetArticlesByLocation(req.Loc.Coordinates[0], req.Loc.Coordinates[1], 0)
 	}
@@ -97,7 +99,7 @@ func FoundHandler(w http.ResponseWriter, r *http.Request) {
 	res.ErrorCode = 200
 
 	if !isRes {
-		w.Write([]byte(ErrFoundFailed))
+		w.Write([]byte(Success))
 		return
 	}
 

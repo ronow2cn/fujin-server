@@ -2,7 +2,7 @@
 * @Author: huang
 * @Date:   2017-10-25 17:07:01
 * @Last Modified by:   huang
-* @Last Modified time: 2017-10-30 16:43:52
+* @Last Modified time: 2017-10-30 17:38:20
  */
 package dbmgr
 
@@ -115,6 +115,25 @@ func GetArticlesByLocation(longitude, latitude float64, distance int32) (ret []*
 
 	if err != nil {
 		log.Error("GetArticlesAuthorId", longitude, latitude, err)
+	}
+
+	return
+}
+
+func GetArticlesByAuthorIdLimit(authorid string, skip, limit int) (ret []*Articles) {
+
+	err := DBCenter.GetObjectsBySkipLimited(
+		CTableArticles,
+		db.M{
+			"authorid": authorid,
+		},
+		skip,
+		limit,
+		&ret,
+	)
+
+	if err != nil {
+		log.Error("GetArticlesAuthorId", authorid, err)
 	}
 
 	return

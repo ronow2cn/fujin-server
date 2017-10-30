@@ -2,7 +2,7 @@
 * @Author: huang
 * @Date:   2017-10-26 16:25:55
 * @Last Modified by:   huang
-* @Last Modified time: 2017-10-30 16:13:20
+* @Last Modified time: 2017-10-30 17:42:00
  */
 package controllers
 
@@ -95,7 +95,7 @@ func GetCommentHandler(w http.ResponseWriter, r *http.Request) {
 	res.ErrorCode = 200
 
 	if !isRes {
-		w.Write([]byte(ErrGetCommentFailed))
+		w.Write([]byte(Success))
 		return
 	}
 

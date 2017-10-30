@@ -295,6 +295,18 @@ func (self *Database) GetAllProjectionsByCond(coll string, cond interface{}, pro
 	return err
 }
 
+func (self *Database) GetObjectsBySkipLimited(coll string, cond interface{}, skip int, limited int, obj interface{}) error {
+	session := self.sGet()
+	defer self.sFree(session)
+
+	err := session.DB("").C(coll).Find(cond).Skip(skip).Limit(limited).All(obj)
+	if isCritical(session, err) {
+		log.Error("db.GetAllObjectsByCond():", err, coll, cond)
+		log.Error(comm.Callstack())
+	}
+	return err
+}
+
 func (self *Database) Insert(coll string, doc interface{}) error {
 	session := self.sGet()
 	defer self.sFree(session)
