@@ -2,7 +2,7 @@
 * @Author: huang
 * @Date:   2017-10-25 17:07:01
 * @Last Modified by:   huang
-* @Last Modified time: 2017-10-30 17:38:20
+* @Last Modified time: 2017-10-30 18:06:57
  */
 package dbmgr
 
@@ -106,7 +106,6 @@ func GetArticlesByLocation(longitude, latitude float64, distance int32) (ret []*
 					"type":        "Point",
 					"coordinates": Arr,
 				},
-				"$spherical":   true,
 				"$maxDistance": distance,
 			},
 		},
