@@ -2,7 +2,7 @@
 * @Author: huang
 * @Date:   2017-10-24 10:30:12
 * @Last Modified by:   huang
-* @Last Modified time: 2017-10-24 17:27:38
+* @Last Modified time: 2017-10-31 17:04:49
  */
 package main
 
@@ -12,6 +12,7 @@ import (
 	"comm/dbmgr"
 	"comm/logger"
 	"flag"
+	"fujin/randname"
 	"fujin/routers"
 	"math/rand"
 	"os"
@@ -48,6 +49,8 @@ func main() {
 }
 
 func start() {
+	//rand name
+	randname.Load("./randname.txt")
 	// open db mgr
 	dbmgr.Open()
 	//routers

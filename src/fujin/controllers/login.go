@@ -2,7 +2,7 @@
 * @Author: huang
 * @Date:   2017-10-25 15:08:47
 * @Last Modified by:   huang
-* @Last Modified time: 2017-10-26 17:08:21
+* @Last Modified time: 2017-10-31 17:20:22
  */
 package controllers
 
@@ -94,4 +94,5 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
 
 	//Success
 	w.Write([]byte(res))
+
 }

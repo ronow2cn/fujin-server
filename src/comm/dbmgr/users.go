@@ -12,6 +12,8 @@ type Users struct {
 	SessionKey string    `bson:"sessionkey"` //回话key
 	Expire     time.Time `bson:"expire"`     //回话超时时间
 	UnionId    string    `bson:"unionid"`    //unionid
+	Name       string    `bson:"name"`       //名字
+	Head       string    `bson:"head"`       //头像
 }
 
 // ============================================================================
@@ -53,6 +55,25 @@ func CenterUpdateUserInfo(uid string, sessionkey string, expire time.Time, union
 
 	if err != nil {
 		log.Warning("save user data failed:", err)
+	}
+
+	return err
+}
+
+func CenterUpdateUserNameHead(uid string, name, head string) error {
+	err := DBCenter.Update(
+		CTableUsers,
+		uid,
+		db.M{
+			"$set": db.M{
+				"name": name,
+				"head": head,
+			},
+		},
+	)
+
+	if err != nil {
+		log.Warning("update user name head failed:", err)
 	}
 
 	return err

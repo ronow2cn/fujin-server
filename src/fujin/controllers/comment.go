@@ -2,7 +2,7 @@
 * @Author: huang
 * @Date:   2017-10-26 15:22:38
 * @Last Modified by:   huang
-* @Last Modified time: 2017-10-26 17:08:09
+* @Last Modified time: 2017-10-31 17:30:06
  */
 package controllers
 
@@ -74,4 +74,11 @@ func CommentHandler(w http.ResponseWriter, r *http.Request) {
 	})
 
 	w.Write([]byte(Success))
+
+	//只保存发言的用户名和头像
+	err = dbmgr.CenterUpdateUserNameHead(req.Uid, req.Name, req.Head)
+	if err != nil {
+		log.Error("CenterUpdateUserInfo error", err)
+		return
+	}
 }

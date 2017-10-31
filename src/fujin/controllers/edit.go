@@ -2,7 +2,7 @@
 * @Author: huang
 * @Date:   2017-10-26 10:03:30
 * @Last Modified by:   huang
-* @Last Modified time: 2017-10-26 17:08:11
+* @Last Modified time: 2017-10-31 17:39:24
  */
 package controllers
 
@@ -64,10 +64,16 @@ func EditHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	name, head := req.AuthorName, req.AuthorHead
+	//匿名处理
+	if req.Anonymous {
+		name = GenRandName()
+	}
+
 	dbmgr.WriteArticle(&dbmgr.Articles{
 		AuthorId:   req.AuthorId,
-		AuthorName: req.AuthorName,
-		AuthorHead: req.AuthorHead,
+		AuthorName: name,
+		AuthorHead: head,
 		Loc: &dbmgr.Location{
 			Type:        "Point",
 			Coordinates: req.Loc.Coordinates,
@@ -79,4 +85,11 @@ func EditHandler(w http.ResponseWriter, r *http.Request) {
 	})
 
 	w.Write([]byte(Success))
+
+	//只保存发言的用户名和头像
+	err = dbmgr.CenterUpdateUserNameHead(req.AuthorId, req.AuthorName, req.AuthorHead)
+	if err != nil {
+		log.Error("CenterUpdateUserInfo error", err)
+		return
+	}
 }

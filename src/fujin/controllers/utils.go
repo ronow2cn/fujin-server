@@ -2,7 +2,7 @@
 * @Author: huang
 * @Date:   2017-10-24 14:21:05
 * @Last Modified by:   huang
-* @Last Modified time: 2017-10-31 15:59:20
+* @Last Modified time: 2017-10-31 17:31:50
  */
 package controllers
 
@@ -13,6 +13,7 @@ import (
 	"encoding/binary"
 	"encoding/hex"
 	"fmt"
+	"fujin/randname"
 	"math"
 	"math/rand"
 	"os"
@@ -129,4 +130,12 @@ func TimeGapStr(ts time.Time) string {
 	}
 
 	return "long time ago"
+}
+
+//生成随机名字
+func GenRandName() string {
+	l := len(randname.RandName)
+	r := rand_image.Intn(l)
+
+	return fmt.Sprintf("%s%s", randname.RandNameFix, randname.RandName[r])
 }
