@@ -2,7 +2,7 @@
 * @Author: huang
 * @Date:   2017-10-26 15:26:00
 * @Last Modified by:   huang
-* @Last Modified time: 2017-10-26 17:58:49
+* @Last Modified time: 2017-10-31 10:46:32
  */
 package dbmgr
 
@@ -13,6 +13,7 @@ import (
 
 // ============================================================================
 type CommentOne struct {
+	Id        string    `bson:"id"`      //评论id
 	CUid      string    `bson:"cuid"`    //评论者Id
 	CName     string    `bson:"cname"`   //评论者名字
 	CHead     string    `bson:"chead"`   //评论者头像
@@ -56,6 +57,7 @@ func WriteComment(id string, cmt *CommentOne) {
 
 	var obj CommentOne
 
+	obj.Id = GenCommentId()
 	obj.CUid = cmt.CUid
 	obj.CName = cmt.CName
 	obj.CHead = cmt.CHead

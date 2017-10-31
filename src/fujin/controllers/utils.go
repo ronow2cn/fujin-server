@@ -2,7 +2,7 @@
 * @Author: huang
 * @Date:   2017-10-24 14:21:05
 * @Last Modified by:   huang
-* @Last Modified time: 2017-10-26 14:45:01
+* @Last Modified time: 2017-10-31 15:59:20
  */
 package controllers
 
@@ -88,8 +88,8 @@ func CheckSessionKey(uid, sessionKey string) bool {
 	return false
 }
 
-// 返回值的单位为米
-func EarthDistance(lng1, lat1, lng2, lat2 float64) float64 {
+// 返回值距离
+func EarthDistance(lng1, lat1, lng2, lat2 float64) string {
 	radius := float64(6371000) // 6378137
 	rad := math.Pi / 180.0
 	lat1 = lat1 * rad
@@ -97,8 +97,20 @@ func EarthDistance(lng1, lat1, lng2, lat2 float64) float64 {
 	lat2 = lat2 * rad
 	lng2 = lng2 * rad
 	theta := lng2 - lng1
-	dist := math.Acos(math.Sin(lat1)*math.Sin(lat2) + math.Cos(lat1)*math.Cos(lat2)*math.Cos(theta))
-	return dist * radius
+
+	dist := int(math.Acos(math.Sin(lat1)*math.Sin(lat2)+math.Cos(lat1)*math.Cos(lat2)*math.Cos(theta)) * radius)
+
+	if dist < 100 {
+		return "小于100米"
+	} else if dist < 1000 {
+		return fmt.Sprintf("%d米", dist)
+	} else if dist < 10000 {
+		return fmt.Sprintf("%.1f千米", float32(dist)/1000)
+	} else if dist < 10000000 {
+		return fmt.Sprintf("%d千米", dist/1000)
+	} else {
+		return "十万八千里"
+	}
 }
 
 //距今多久之前

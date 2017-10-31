@@ -2,7 +2,7 @@
 * @Author: huang
 * @Date:   2017-10-26 16:25:55
 * @Last Modified by:   huang
-* @Last Modified time: 2017-10-30 17:42:00
+* @Last Modified time: 2017-10-31 15:48:26
  */
 package controllers
 
@@ -23,11 +23,12 @@ type GetCommentReq struct {
 }
 
 type CommentOne struct {
+	Id       string `json:"id"`       //评论id
 	CName    string `json:"name"`     //评论者名字
 	CHead    string `json:"head"`     //评论者头像
-	Distance int32  `json:"distance"` //写的距离
+	Distance string `json:"distance"` //写的距离
 	Ts       string `json:"ts"`       //写时间
-	Content  string `bson:"content"`  //内容
+	Content  string `json:"content"`  //内容
 }
 
 type GetCommentRes struct {
@@ -81,10 +82,11 @@ func GetCommentHandler(w http.ResponseWriter, r *http.Request) {
 		log.Info(v)
 
 		one := &CommentOne{}
+		one.Id = v.Id
 		one.CName = v.CName
 		one.CHead = v.CHead
 		one.Content = v.Content
-		one.Distance = int32(EarthDistance(req.Loc.Coordinates[0], req.Loc.Coordinates[1], v.Loc.Coordinates[0], v.Loc.Coordinates[1]))
+		one.Distance = EarthDistance(req.Loc.Coordinates[0], req.Loc.Coordinates[1], v.Loc.Coordinates[0], v.Loc.Coordinates[1])
 		one.Ts = TimeGapStr(v.Ts)
 
 		res.Cmt = append(res.Cmt, one)

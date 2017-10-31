@@ -2,7 +2,7 @@
 * @Author: huang
 * @Date:   2017-10-26 14:14:30
 * @Last Modified by:   huang
-* @Last Modified time: 2017-10-30 17:42:33
+* @Last Modified time: 2017-10-31 15:48:08
  */
 package controllers
 
@@ -28,7 +28,7 @@ type articleOneRes struct {
 	AuthorHead string   `json:"authorhead"` //作者头像
 	Content    string   `json:"content"`    //内容
 	Images     []string `json:"images"`     //图像地址
-	Distance   int32    `json:"distance"`   //距离
+	Distance   string   `json:"distance"`   //距离
 	Ts         string   `json:"ts"`         //时间
 }
 
@@ -90,7 +90,7 @@ func FoundHandler(w http.ResponseWriter, r *http.Request) {
 		one.AuthorHead = v.AuthorHead
 		one.Content = v.Content
 		one.Images = v.Images
-		one.Distance = int32(EarthDistance(req.Loc.Coordinates[0], req.Loc.Coordinates[1], v.Loc.Coordinates[0], v.Loc.Coordinates[1]))
+		one.Distance = EarthDistance(req.Loc.Coordinates[0], req.Loc.Coordinates[1], v.Loc.Coordinates[0], v.Loc.Coordinates[1])
 		one.Ts = TimeGapStr(v.Ts)
 
 		res.Articles = append(res.Articles, one)
