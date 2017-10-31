@@ -40,17 +40,18 @@ func CenterGetUserInfo(uid string) *Users {
 }
 
 func CenterUpdateUserInfo(uid string, sessionkey string, expire time.Time, unionid string) error {
-	obj := &Users{
-		Uid:        uid,
-		SessionKey: sessionkey,
-		Expire:     expire,
-		UnionId:    unionid,
-	}
 
 	err := DBCenter.Upsert(
 		CTableUsers,
 		uid,
-		obj,
+		db.M{
+			"$set": db.M{
+				"_id":        uid,
+				"sessionkey": sessionkey,
+				"expire":     expire,
+				"unionid":    unionid,
+			},
+		},
 	)
 
 	if err != nil {
