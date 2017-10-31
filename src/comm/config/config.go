@@ -21,6 +21,7 @@ type commonT struct {
 	ImagesUrl   string `json:"imagesurl"`
 	GmToken     string `json:"gmtoken"`
 	MaxDistance int32  `json:"maxdistance"`
+	AnonHead    string `json:"anonhead"`
 }
 
 type weixinT struct {

@@ -2,7 +2,7 @@
 * @Author: huang
 * @Date:   2017-10-26 10:03:30
 * @Last Modified by:   huang
-* @Last Modified time: 2017-10-31 17:39:24
+* @Last Modified time: 2017-10-31 17:49:00
  */
 package controllers
 
@@ -68,6 +68,7 @@ func EditHandler(w http.ResponseWriter, r *http.Request) {
 	//匿名处理
 	if req.Anonymous {
 		name = GenRandName()
+		head = AnonymousHead()
 	}
 
 	dbmgr.WriteArticle(&dbmgr.Articles{

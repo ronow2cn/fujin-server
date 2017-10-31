@@ -2,7 +2,7 @@
 * @Author: huang
 * @Date:   2017-10-31 16:51:05
 * @Last Modified by:   huang
-* @Last Modified time: 2017-10-31 17:12:29
+* @Last Modified time: 2017-10-31 17:41:57
  */
 package randname
 
@@ -16,7 +16,7 @@ import (
 
 var log = logger.DefaultLogger
 
-var RandNameFix = "隐匿的"
+var RandNameFix = "隐名的"
 
 var RandName = []string{"蔷薇", "布袋"}
 

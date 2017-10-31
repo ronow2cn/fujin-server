@@ -7,7 +7,7 @@
         "imagesurl":"https://www.esiyou.com/wf/images",
         "gmtoken":"aea29eb2332f",
         "maxdistance": 5000,
-
+        "anonhead":"../../images/anonhead.png",
 
         "dbCenter": "mongodb://127.0.0.1:27017/haa_mjc?authSource=admin"
     },

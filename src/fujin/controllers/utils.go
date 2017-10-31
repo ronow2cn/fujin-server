@@ -2,7 +2,7 @@
 * @Author: huang
 * @Date:   2017-10-24 14:21:05
 * @Last Modified by:   huang
-* @Last Modified time: 2017-10-31 17:31:50
+* @Last Modified time: 2017-10-31 17:48:37
  */
 package controllers
 
@@ -138,4 +138,9 @@ func GenRandName() string {
 	r := rand_image.Intn(l)
 
 	return fmt.Sprintf("%s%s", randname.RandNameFix, randname.RandName[r])
+}
+
+//匿名头像
+func AnonymousHead() string {
+	return config.Common.AnonHead
 }
