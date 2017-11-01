@@ -39,7 +39,7 @@ func MakeImageID() string {
 
 	y, m, d := time.Now().Date()
 
-	return fmt.Sprintf("%s%d%d%d", strings.ToUpper(hex.EncodeToString(buf)), y, m, d)
+	return fmt.Sprintf("%s%d%02d%02d", strings.ToUpper(hex.EncodeToString(buf)), y, m, d)
 }
 
 func ImageID2Path(imageid, filetype string) string {
@@ -126,7 +126,7 @@ func TimeGapStr(ts time.Time) string {
 		return fmt.Sprintf("%d小时前", int32(gap)/60)
 	} else {
 		_, m, d := ts.Date()
-		return fmt.Sprintf("%d/%d", d, m)
+		return fmt.Sprintf("%d/%d %d:%02d", d, m, ts.Hour(), ts.Minute())
 	}
 
 	return "long time ago"
