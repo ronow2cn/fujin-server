@@ -2,7 +2,7 @@
 * @Author: huang
 * @Date:   2017-10-26 15:26:00
 * @Last Modified by:   huang
-* @Last Modified time: 2017-10-31 10:46:32
+* @Last Modified time: 2017-11-01 12:07:27
  */
 package dbmgr
 
@@ -38,6 +38,32 @@ func GetComments(id string) *Comments {
 		CTableComments,
 		db.M{
 			"_id": id,
+		},
+		&obj,
+	)
+
+	if err == nil {
+		return &obj
+	} else {
+		// failed
+		return nil
+	}
+}
+
+func GetCommentsByLimit(id string, skip, limit int) *Comments {
+	arr := []int{skip, limit}
+
+	var obj Comments
+
+	err := DBCenter.GetProjectionByCond(
+		CTableComments,
+		db.M{
+			"_id": id,
+		},
+		db.M{
+			"cmt": db.M{
+				"$slice": arr,
+			},
 		},
 		&obj,
 	)

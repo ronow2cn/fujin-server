@@ -2,11 +2,12 @@
 * @Author: huang
 * @Date:   2017-10-26 16:25:55
 * @Last Modified by:   huang
-* @Last Modified time: 2017-10-31 15:48:26
+* @Last Modified time: 2017-11-01 10:32:53
  */
 package controllers
 
 import (
+	"comm/config"
 	"comm/dbmgr"
 	"encoding/json"
 	"io/ioutil"
@@ -20,6 +21,7 @@ type GetCommentReq struct {
 	Uid        string    `json:"uid"`        //自己的uid
 	ArticleId  string    `json:"articleid"`  //评论的文章Id
 	Loc        *Location `json:"loc"`        //写的位置
+	ReqIndex   int32     `json:"reqindex"`   //请求数量index
 }
 
 type CommentOne struct {
@@ -70,7 +72,8 @@ func GetCommentHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	cmts := dbmgr.GetComments(req.ArticleId)
+	//cmts := dbmgr.GetComments(req.ArticleId)
+	cmts := dbmgr.GetCommentsByLimit(req.ArticleId, int(req.ReqIndex), int(config.Common.PerReqNum))
 	if cmts == nil {
 		w.Write([]byte(ErrGetCommentFailed))
 		return

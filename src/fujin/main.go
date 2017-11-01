@@ -2,7 +2,7 @@
 * @Author: huang
 * @Date:   2017-10-24 10:30:12
 * @Last Modified by:   huang
-* @Last Modified time: 2017-10-31 17:04:49
+* @Last Modified time: 2017-11-01 11:13:56
  */
 package main
 
@@ -56,7 +56,7 @@ func start() {
 	//routers
 	routers.Routers()
 
-	log.Info("fujin werver started")
+	log.Info("fujin server started")
 }
 
 func stop() {

@@ -2,11 +2,12 @@
 * @Author: huang
 * @Date:   2017-10-26 14:14:30
 * @Last Modified by:   huang
-* @Last Modified time: 2017-10-31 15:48:08
+* @Last Modified time: 2017-11-01 10:11:34
  */
 package controllers
 
 import (
+	"comm/config"
 	"comm/dbmgr"
 	"encoding/json"
 	"io/ioutil"
@@ -19,7 +20,8 @@ type FoundReq struct {
 	SessionKey string    `json:"sessionkey"` //session_key
 	Uid        string    `json:"uid"`
 	IsSelf     bool      `json:"isself"`
-	Loc        *Location `json:"loc"` //写的位置
+	Loc        *Location `json:"loc"`      //写的位置
+	ReqIndex   int32     `json:"reqindex"` //请求数量index
 }
 
 type articleOneRes struct {
@@ -72,11 +74,12 @@ func FoundHandler(w http.ResponseWriter, r *http.Request) {
 
 	var arr []*dbmgr.Articles
 	if req.IsSelf {
-		arr = dbmgr.GetArticlesByAuthorId(req.Uid)
-		//arr = dbmgr.GetArticlesByAuthorIdLimit(req.Uid, 4, 100)
+		//arr = dbmgr.GetArticlesByAuthorId(req.Uid)
+		arr = dbmgr.GetArticlesByAuthorIdLimit(req.Uid, int(req.ReqIndex), int(config.Common.PerReqNum))
 
 	} else {
-		arr = dbmgr.GetArticlesByLocation(req.Loc.Coordinates[0], req.Loc.Coordinates[1], 0)
+		//arr = dbmgr.GetArticlesByLocation(req.Loc.Coordinates[0], req.Loc.Coordinates[1], 0)
+		arr = dbmgr.GetArticlesByLocationByLimit(req.Loc.Coordinates[0], req.Loc.Coordinates[1], 0, int(req.ReqIndex), int(config.Common.PerReqNum))
 	}
 
 	isRes := false
