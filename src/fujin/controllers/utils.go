@@ -126,7 +126,7 @@ func TimeGapStr(ts time.Time) string {
 		return fmt.Sprintf("%d小时前", int32(gap)/60)
 	} else {
 		_, m, d := ts.Date()
-		return fmt.Sprintf("%d/%d %d:%02d", d, m, ts.Hour(), ts.Minute())
+		return fmt.Sprintf("%d/%d %d:%02d", m, d, ts.Hour(), ts.Minute())
 	}
 
 	return "long time ago"
