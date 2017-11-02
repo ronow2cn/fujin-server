@@ -2,7 +2,7 @@
 * @Author: huang
 * @Date:   2017-10-26 15:26:00
 * @Last Modified by:   huang
-* @Last Modified time: 2017-11-01 12:07:27
+* @Last Modified time: 2017-11-01 17:34:41
  */
 package dbmgr
 
@@ -47,6 +47,25 @@ func GetComments(id string) *Comments {
 	} else {
 		// failed
 		return nil
+	}
+}
+
+func GetCommentsNum(id string) int32 {
+	var obj Comments
+
+	err := DBCenter.GetObjectByCond(
+		CTableComments,
+		db.M{
+			"_id": id,
+		},
+		&obj,
+	)
+
+	if err == nil {
+		return obj.CmtCnt
+	} else {
+		// failed
+		return 0
 	}
 }
 
