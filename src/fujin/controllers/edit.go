@@ -2,12 +2,13 @@
 * @Author: huang
 * @Date:   2017-10-26 10:03:30
 * @Last Modified by:   huang
-* @Last Modified time: 2017-10-31 17:49:00
+* @Last Modified time: 2018-04-12 15:13:44
  */
 package controllers
 
 import (
 	"comm/dbmgr"
+	"comm/wordsfilter"
 	"encoding/json"
 	"io/ioutil"
 	"net/http"
@@ -80,7 +81,7 @@ func EditHandler(w http.ResponseWriter, r *http.Request) {
 			Coordinates: req.Loc.Coordinates,
 		},
 		Ts:        time.Now(),
-		Content:   req.Content,
+		Content:   wordsfilter.Filter(req.Content),
 		Anonymous: req.Anonymous,
 		Images:    req.Images,
 	})

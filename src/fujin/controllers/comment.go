@@ -2,12 +2,13 @@
 * @Author: huang
 * @Date:   2017-10-26 15:22:38
 * @Last Modified by:   huang
-* @Last Modified time: 2017-11-01 09:59:03
+* @Last Modified time: 2018-04-12 15:12:01
  */
 package controllers
 
 import (
 	"comm/dbmgr"
+	"comm/wordsfilter"
 	"encoding/json"
 	"io/ioutil"
 	"net/http"
@@ -69,7 +70,7 @@ func CommentHandler(w http.ResponseWriter, r *http.Request) {
 			Coordinates: req.Loc.Coordinates,
 		},
 		Ts:        time.Now(),
-		Content:   req.Content,
+		Content:   wordsfilter.Filter(req.Content),
 		Anonymous: req.Anonymous,
 	})
 

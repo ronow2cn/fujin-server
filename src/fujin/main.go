@@ -2,7 +2,7 @@
 * @Author: huang
 * @Date:   2017-10-24 10:30:12
 * @Last Modified by:   huang
-* @Last Modified time: 2017-11-01 11:13:56
+* @Last Modified time: 2018-04-12 15:10:33
  */
 package main
 
@@ -11,6 +11,7 @@ import (
 	"comm/config"
 	"comm/dbmgr"
 	"comm/logger"
+	"comm/wordsfilter"
 	"flag"
 	"fujin/randname"
 	"fujin/routers"
@@ -49,10 +50,17 @@ func main() {
 }
 
 func start() {
-	//rand name
+	// rand name
 	randname.Load("./randname.txt")
+	// load filter
+	err := wordsfilter.Load("./filter.txt")
+	if err != nil {
+		log.Error("loading words-filter failed:", err)
+	}
+
 	// open db mgr
 	dbmgr.Open()
+
 	//routers
 	routers.Routers()
 
