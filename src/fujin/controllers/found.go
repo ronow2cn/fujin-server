@@ -9,6 +9,7 @@ package controllers
 import (
 	"comm/config"
 	"comm/dbmgr"
+	"comm/wordsfilter"
 	"encoding/json"
 	"io/ioutil"
 	"net/http"
@@ -92,7 +93,7 @@ func FoundHandler(w http.ResponseWriter, r *http.Request) {
 		one.Id = v.Id
 		one.AuthorName = v.AuthorName
 		one.AuthorHead = v.AuthorHead
-		one.Content = v.Content
+		one.Content = wordsfilter.Filter(v.Content)
 		one.Images = v.Images
 		one.Distance = EarthDistance(req.Loc.Coordinates[0], req.Loc.Coordinates[1], v.Loc.Coordinates[0], v.Loc.Coordinates[1])
 		one.Ts = TimeGapStr(v.Ts)

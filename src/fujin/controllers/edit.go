@@ -8,7 +8,6 @@ package controllers
 
 import (
 	"comm/dbmgr"
-	"comm/wordsfilter"
 	"encoding/json"
 	"io/ioutil"
 	"net/http"
@@ -81,7 +80,7 @@ func EditHandler(w http.ResponseWriter, r *http.Request) {
 			Coordinates: req.Loc.Coordinates,
 		},
 		Ts:        time.Now(),
-		Content:   wordsfilter.Filter(req.Content),
+		Content:   req.Content,
 		Anonymous: req.Anonymous,
 		Images:    req.Images,
 	})

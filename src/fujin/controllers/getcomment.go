@@ -9,6 +9,7 @@ package controllers
 import (
 	"comm/config"
 	"comm/dbmgr"
+	"comm/wordsfilter"
 	"encoding/json"
 	"io/ioutil"
 	"net/http"
@@ -88,7 +89,7 @@ func GetCommentHandler(w http.ResponseWriter, r *http.Request) {
 		one.Id = v.Id
 		one.CName = v.CName
 		one.CHead = v.CHead
-		one.Content = v.Content
+		one.Content = wordsfilter.Filter(v.Content)
 		one.Distance = EarthDistance(req.Loc.Coordinates[0], req.Loc.Coordinates[1], v.Loc.Coordinates[0], v.Loc.Coordinates[1])
 		one.Ts = TimeGapStr(v.Ts)
 
