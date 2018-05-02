@@ -103,10 +103,12 @@ func GetArticlesByLocation(longitude, latitude float64, distance int32) (ret []*
 		db.M{
 			"loc": db.M{
 				"$near": db.M{
-					"type":        "Point",
-					"coordinates": Arr,
+					"$geometry": db.M{
+						"type":        "Point",
+						"coordinates": Arr,
+					},
+					"$maxDistance": distance,
 				},
-				"$maxDistance": distance,
 			},
 		},
 		&ret,
@@ -149,10 +151,12 @@ func GetArticlesByLocationByLimit(longitude, latitude float64, distance int32, s
 		db.M{
 			"loc": db.M{
 				"$near": db.M{
-					"type":        "Point",
-					"coordinates": Arr,
+					"$geometry": db.M{
+						"type":        "Point",
+						"coordinates": Arr,
+					},
+					"$maxDistance": distance,
 				},
-				"$maxDistance": distance,
 			},
 		},
 		skip,
