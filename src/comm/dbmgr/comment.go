@@ -2,7 +2,7 @@
 * @Author: huang
 * @Date:   2017-10-26 15:26:00
 * @Last Modified by:   huang
-* @Last Modified time: 2018-05-08 17:35:31
+* @Last Modified time: 2018-05-08 18:10:30
  */
 package dbmgr
 
@@ -14,26 +14,26 @@ import (
 // ============================================================================
 // 点赞
 type ThumbOne struct {
-	Uid  string `bson:"uid"`
-	Name string `bson:"name"`
-	Head string `bson:"head"`
+	Uid string `bson:"uid"`
 }
 
 type CommentOne struct {
-	Id        string    `bson:"id"`      //评论id
-	CUid      string    `bson:"cuid"`    //评论者Id
-	CName     string    `bson:"cname"`   //评论者名字
-	CHead     string    `bson:"chead"`   //评论者头像
-	Loc       *Location `bson:"loc"`     //写的位置
-	Ts        time.Time `bson:"ts"`      //写时间
-	Content   string    `bson:"content"` //内容
-	Anonymous bool      `bson:"anon"`    //是否匿名
+	Id        string      `bson:"id"`      //评论id
+	CUid      string      `bson:"cuid"`    //评论者Id
+	CName     string      `bson:"cname"`   //评论者名字
+	CHead     string      `bson:"chead"`   //评论者头像
+	Loc       *Location   `bson:"loc"`     //写的位置
+	Ts        time.Time   `bson:"ts"`      //写时间
+	Content   string      `bson:"content"` //内容
+	Thumb     []*ThumbOne `bson:"thumb"`   //点赞信息
+	Anonymous bool        `bson:"anon"`    //是否匿名
 }
 
 type Comments struct {
 	Id     string        `bson:"_id"`    //文章Id
 	CmtCnt int32         `bson:"cmtcnt"` //评论数量
 	Cmt    []*CommentOne `bson:"cmt"`    //评论组
+	Thumb  []*ThumbOne   `bson:"thumb"`  //点赞信息
 }
 
 // ============================================================================
@@ -76,6 +76,7 @@ func GetCommentsNum(id string) int32 {
 	}
 }
 
+// 更新评论条数
 func UpdateCommentNum(id string) {
 	var obj Comments
 
@@ -131,6 +132,7 @@ func GetCommentsByLimit(id string, skip, limit int) *Comments {
 	}
 }
 
+// 写评论
 func WriteComment(id string, cmt *CommentOne) {
 	if cmt == nil {
 		return
@@ -188,4 +190,14 @@ func CenterDelComment(authorid string, articleid string, commentid string) error
 	UpdateCommentNum(articleid)
 
 	return err
+}
+
+// 文章点赞
+func ArticleThumbAdd(uid string, articleid string, commentid string) {
+
+}
+
+// 评论点赞
+func CommentThumbAdd(uid string, articleid string, commentid string) {
+
 }
