@@ -2,7 +2,7 @@
 * @Author: huang
 * @Date:   2017-10-26 15:26:00
 * @Last Modified by:   huang
-* @Last Modified time: 2018-05-08 15:27:46
+* @Last Modified time: 2018-05-08 17:35:31
  */
 package dbmgr
 
@@ -12,6 +12,13 @@ import (
 )
 
 // ============================================================================
+// 点赞
+type ThumbOne struct {
+	Uid  string `bson:"uid"`
+	Name string `bson:"name"`
+	Head string `bson:"head"`
+}
+
 type CommentOne struct {
 	Id        string    `bson:"id"`      //评论id
 	CUid      string    `bson:"cuid"`    //评论者Id
@@ -67,6 +74,35 @@ func GetCommentsNum(id string) int32 {
 		// failed
 		return 0
 	}
+}
+
+func UpdateCommentNum(id string) {
+	var obj Comments
+
+	err := DBCenter.GetObjectByCond(
+		CTableComments,
+		db.M{
+			"_id": id,
+		},
+		&obj,
+	)
+
+	cnt := 0
+	if err == nil {
+		cnt = len(obj.Cmt)
+	} else {
+		return
+	}
+
+	DBCenter.UpdateByCond(
+		CTableComments,
+		db.M{
+			"_id": id,
+		},
+		db.M{
+			"$set": db.M{"cmtcnt": cnt},
+		},
+	)
 }
 
 func GetCommentsByLimit(id string, skip, limit int) *Comments {
@@ -149,16 +185,7 @@ func CenterDelComment(authorid string, articleid string, commentid string) error
 	}
 
 	// 相对比较低频的操作
-	cnt := GetCommentsNum(articleid)
-	DBCenter.UpdateByCond(
-		CTableComments,
-		db.M{
-			"_id": articleid,
-		},
-		db.M{
-			"$set": db.M{"cmtcnt": cnt},
-		},
-	)
+	UpdateCommentNum(articleid)
 
 	return err
 }
