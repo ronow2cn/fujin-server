@@ -2,7 +2,7 @@
 * @Author: huang
 * @Date:   2017-10-24 17:57:25
 * @Last Modified by:   huang
-* @Last Modified time: 2018-05-08 11:36:12
+* @Last Modified time: 2018-05-08 14:53:37
  */
 package controllers
 
@@ -17,4 +17,5 @@ const (
 	ErrCommentFailed    = "601"
 	ErrGetCommentFailed = "602"
 	ErrDelArticleFailed = "701"
+	ErrDelCommentFailed = "702"
 )

@@ -2,7 +2,7 @@
 * @Author: huang
 * @Date:   2017-10-25 17:07:01
 * @Last Modified by:   huang
-* @Last Modified time: 2018-05-08 12:06:19
+* @Last Modified time: 2018-05-08 14:54:24
  */
 package dbmgr
 
@@ -176,6 +176,7 @@ func GetArticlesByLocationByLimit(longitude, latitude float64, distance int32, s
 	return
 }
 
+// 删除文章
 func CenterDelArticle(authorid string, articleid string) error {
 	err := DBCenter.UpdateByCond(
 		CTableArticles,

@@ -2,7 +2,7 @@
 * @Author: huang
 * @Date:   2017-10-26 15:26:00
 * @Last Modified by:   huang
-* @Last Modified time: 2017-11-01 17:34:41
+* @Last Modified time: 2018-05-08 15:27:46
  */
 package dbmgr
 
@@ -125,4 +125,40 @@ func WriteComment(id string, cmt *CommentOne) {
 	if err != nil {
 		log.Error(err)
 	}
+}
+
+// 删除评论
+func CenterDelComment(authorid string, articleid string, commentid string) error {
+	err := DBCenter.UpdateByCond(
+		CTableComments,
+		db.M{
+			"_id": articleid,
+		},
+		db.M{
+			"$pull": db.M{
+				"cmt": db.M{
+					"id":   commentid,
+					"cuid": authorid,
+				},
+			},
+		},
+	)
+
+	if err != nil {
+		log.Warning("CenterDelComment failed:", err)
+	}
+
+	// 相对比较低频的操作
+	cnt := GetCommentsNum(articleid)
+	DBCenter.UpdateByCond(
+		CTableComments,
+		db.M{
+			"_id": articleid,
+		},
+		db.M{
+			"$set": db.M{"cmtcnt": cnt},
+		},
+	)
+
+	return err
 }
