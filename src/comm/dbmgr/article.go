@@ -2,7 +2,7 @@
 * @Author: huang
 * @Date:   2017-10-25 17:07:01
 * @Last Modified by:   huang
-* @Last Modified time: 2017-11-01 10:10:49
+* @Last Modified time: 2018-05-08 12:06:19
  */
 package dbmgr
 
@@ -29,6 +29,7 @@ type Articles struct {
 	Content    string    `bson:"content"`    //内容
 	Images     []string  `bson:"images"`     //图像地址
 	Anonymous  bool      `bson:"anon"`       //是否匿名
+	IsDelete   bool      `bson:"isdelete"`   //是否已经删除
 }
 
 // ============================================================================
@@ -81,6 +82,7 @@ func GetArticlesByAuthorId(authorid string) (ret []*Articles) {
 		CTableArticles,
 		db.M{
 			"authorid": authorid,
+			"isdelete": false,
 		},
 		&ret,
 	)
@@ -110,6 +112,7 @@ func GetArticlesByLocation(longitude, latitude float64, distance int32) (ret []*
 					"$maxDistance": distance,
 				},
 			},
+			"isdelete": false,
 		},
 		&ret,
 	)
@@ -127,6 +130,7 @@ func GetArticlesByAuthorIdLimit(authorid string, skip, limit int) (ret []*Articl
 		CTableArticles,
 		db.M{
 			"authorid": authorid,
+			"isdelete": false,
 		},
 		skip,
 		limit,
@@ -158,6 +162,7 @@ func GetArticlesByLocationByLimit(longitude, latitude float64, distance int32, s
 					"$maxDistance": distance,
 				},
 			},
+			"isdelete": false,
 		},
 		skip,
 		limit,
@@ -169,4 +174,25 @@ func GetArticlesByLocationByLimit(longitude, latitude float64, distance int32, s
 	}
 
 	return
+}
+
+func CenterDelArticle(authorid string, articleid string) error {
+	err := DBCenter.UpdateByCond(
+		CTableArticles,
+		db.M{
+			"_id":      articleid,
+			"authorid": authorid,
+		},
+		db.M{
+			"$set": db.M{
+				"isdelete": true,
+			},
+		},
+	)
+
+	if err != nil {
+		log.Warning("CenterDelArticle failed:", err)
+	}
+
+	return err
 }

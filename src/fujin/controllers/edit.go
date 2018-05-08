@@ -2,7 +2,7 @@
 * @Author: huang
 * @Date:   2017-10-26 10:03:30
 * @Last Modified by:   huang
-* @Last Modified time: 2018-04-12 15:13:44
+* @Last Modified time: 2018-05-08 11:36:43
  */
 package controllers
 
@@ -54,7 +54,7 @@ func EditHandler(w http.ResponseWriter, r *http.Request) {
 
 	if !CheckSessionKey(req.AuthorId, req.SessionKey) {
 		log.Error("CheckSessionKey error", req.AuthorId, req.SessionKey)
-		w.Write([]byte(ErrEditFailed))
+		w.Write([]byte(ErrTokenError))
 		return
 	}
 

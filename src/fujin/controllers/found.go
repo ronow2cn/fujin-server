@@ -2,7 +2,7 @@
 * @Author: huang
 * @Date:   2017-10-26 14:14:30
 * @Last Modified by:   huang
-* @Last Modified time: 2017-11-01 17:36:23
+* @Last Modified time: 2018-05-08 11:36:48
  */
 package controllers
 
@@ -70,7 +70,7 @@ func FoundHandler(w http.ResponseWriter, r *http.Request) {
 
 	if !CheckSessionKey(req.Uid, req.SessionKey) {
 		log.Error("CheckSessionKey error", req.Uid, req.SessionKey)
-		w.Write([]byte(ErrFoundFailed))
+		w.Write([]byte(ErrTokenError))
 		return
 	}
 

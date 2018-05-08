@@ -2,7 +2,7 @@
 * @Author: huang
 * @Date:   2017-10-26 16:25:55
 * @Last Modified by:   huang
-* @Last Modified time: 2017-11-01 10:32:53
+* @Last Modified time: 2018-05-08 11:36:53
  */
 package controllers
 
@@ -69,7 +69,7 @@ func GetCommentHandler(w http.ResponseWriter, r *http.Request) {
 
 	if !CheckSessionKey(req.Uid, req.SessionKey) {
 		log.Error("CheckSessionKey error", req.Uid, req.SessionKey)
-		w.Write([]byte(ErrGetCommentFailed))
+		w.Write([]byte(ErrTokenError))
 		return
 	}
 
