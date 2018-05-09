@@ -14,6 +14,7 @@ const (
 	CTableSeqId    = "seqid"
 	CTableCallback = "callback"
 	CTableComments = "comments"
+	CTableTipOffs  = "tipoffs"
 )
 
 // ============================================================================
