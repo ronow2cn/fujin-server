@@ -62,6 +62,10 @@ func CenterUpdateUserInfo(uid string, sessionkey string, expire time.Time, union
 }
 
 func CenterUpdateUserNameHead(uid string, name, head string) error {
+	if len(name) == 0 || len(head) == 0 {
+		return nil
+	}
+
 	err := DBCenter.Update(
 		CTableUsers,
 		uid,
