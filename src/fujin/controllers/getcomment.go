@@ -2,7 +2,7 @@
 * @Author: huang
 * @Date:   2017-10-26 16:25:55
 * @Last Modified by:   huang
-* @Last Modified time: 2018-05-08 11:36:53
+* @Last Modified time: 2018-05-09 14:27:58
  */
 package controllers
 
@@ -26,12 +26,14 @@ type GetCommentReq struct {
 }
 
 type CommentOne struct {
-	Id       string `json:"id"`       //评论id
-	CName    string `json:"name"`     //评论者名字
-	CHead    string `json:"head"`     //评论者头像
-	Distance string `json:"distance"` //写的距离
-	Ts       string `json:"ts"`       //写时间
-	Content  string `json:"content"`  //内容
+	Id        string `json:"id"`        //评论id
+	CName     string `json:"name"`      //评论者名字
+	CHead     string `json:"head"`      //评论者头像
+	Distance  string `json:"distance"`  //写的距离
+	Ts        string `json:"ts"`        //写时间
+	Content   string `json:"content"`   //内容
+	ThumbNum  int32  `json:"thumbnum"`  //点赞数
+	SelfThumb bool   `json:"selfthumb"` //自己是否点赞
 }
 
 type GetCommentRes struct {
@@ -92,6 +94,7 @@ func GetCommentHandler(w http.ResponseWriter, r *http.Request) {
 		one.Content = wordsfilter.Filter(v.Content)
 		one.Distance = EarthDistance(req.Loc.Coordinates[0], req.Loc.Coordinates[1], v.Loc.Coordinates[0], v.Loc.Coordinates[1])
 		one.Ts = TimeGapStr(v.Ts)
+		one.ThumbNum, one.SelfThumb = dbmgr.CommentThumbNum(req.Uid, req.ArticleId, v.Id)
 
 		res.Cmt = append(res.Cmt, one)
 		isRes = true

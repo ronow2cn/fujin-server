@@ -2,7 +2,7 @@
 * @Author: huang
 * @Date:   2017-10-26 15:26:00
 * @Last Modified by:   huang
-* @Last Modified time: 2018-05-09 11:38:04
+* @Last Modified time: 2018-05-09 14:52:39
  */
 package dbmgr
 
@@ -197,7 +197,7 @@ func ArticleThumbAdd(uid string, articleid string) error {
 	th := &ThumbOne{Uid: uid}
 
 	err := DBCenter.UpdateByCond(
-		CTableArticles,
+		CTableComments,
 		db.M{
 			"_id": articleid,
 		},
@@ -213,6 +213,32 @@ func ArticleThumbAdd(uid string, articleid string) error {
 	}
 
 	return err
+}
+
+// 文章点赞数，自己是否点赞
+func ArticleThumbNum(uid string, articleid string) (int32, bool) {
+	var obj Comments
+
+	err := DBCenter.GetObjectByCond(
+		CTableComments,
+		db.M{
+			"_id": articleid,
+		},
+		&obj,
+	)
+
+	if err != nil {
+		log.Warning("ArticleThumbNum failed:", err)
+		return 0, false
+	}
+
+	for _, v := range obj.Thumb {
+		if v.Uid == uid {
+			return int32(len(obj.Thumb)), true
+		}
+	}
+
+	return int32(len(obj.Thumb)), false
 }
 
 // 评论点赞
@@ -237,4 +263,37 @@ func CommentThumbAdd(uid string, articleid string, commentid string) error {
 	}
 
 	return err
+}
+
+// 评论点赞数，自己是否点赞
+func CommentThumbNum(uid string, articleid string, commentid string) (int32, bool) {
+	var obj Comments
+
+	err := DBCenter.GetObjectByCond(
+		CTableComments,
+		db.M{
+			"_id":    articleid,
+			"cmt.id": commentid,
+		},
+		&obj,
+	)
+
+	if err != nil {
+		log.Warning("CommentThumbNum failed:", err)
+		return 0, false
+	}
+
+	for _, v := range obj.Cmt {
+		if v.Id == commentid {
+			for _, c := range v.Thumb {
+				if c.Uid == uid {
+					return int32(len(v.Thumb)), true
+				}
+			}
+
+			return int32(len(v.Thumb)), false
+		}
+	}
+
+	return 0, false
 }

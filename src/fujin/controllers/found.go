@@ -2,7 +2,7 @@
 * @Author: huang
 * @Date:   2017-10-26 14:14:30
 * @Last Modified by:   huang
-* @Last Modified time: 2018-05-08 11:36:48
+* @Last Modified time: 2018-05-09 14:19:11
  */
 package controllers
 
@@ -34,6 +34,8 @@ type articleOneRes struct {
 	Distance    string   `json:"distance"`   //距离
 	Ts          string   `json:"ts"`         //时间
 	CommentsNum int32    `json:"cmtnum"`     //评论条数
+	ThumbNum    int32    `json:"thumbnum"`   //点赞数
+	SelfThumb   bool     `json:"selfthumb"`  //自己是否点赞
 }
 
 type FoundRes struct {
@@ -98,6 +100,7 @@ func FoundHandler(w http.ResponseWriter, r *http.Request) {
 		one.Distance = EarthDistance(req.Loc.Coordinates[0], req.Loc.Coordinates[1], v.Loc.Coordinates[0], v.Loc.Coordinates[1])
 		one.Ts = TimeGapStr(v.Ts)
 		one.CommentsNum = dbmgr.GetCommentsNum(v.Id)
+		one.ThumbNum, one.SelfThumb = dbmgr.ArticleThumbNum(req.Uid, v.Id)
 
 		res.Articles = append(res.Articles, one)
 		isRes = true
