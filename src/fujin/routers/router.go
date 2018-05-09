@@ -2,7 +2,7 @@
 * @Author: huang
 * @Date:   2017-10-24 11:07:21
 * @Last Modified by:   huang
-* @Last Modified time: 2018-05-09 10:57:35
+* @Last Modified time: 2018-05-09 16:20:15
  */
 package routers
 
@@ -50,6 +50,7 @@ func Routers() {
 		http.HandleFunc("/delarticle", controllers.DelArticleHandler)
 		http.HandleFunc("/delcomment", controllers.DelCommentHandler)
 		http.HandleFunc("/thumb", controllers.ThumbHandler)
+		http.HandleFunc("/delthumb", controllers.ThumbDelHandler)
 
 		httpServer()
 	}()

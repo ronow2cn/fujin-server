@@ -1,8 +1,8 @@
 /*
 * @Author: huang
-* @Date:   2018-05-09 10:48:35
+* @Date:   2018-05-09 15:20:30
 * @Last Modified by:   huang
-* @Last Modified time: 2018-05-09 15:01:31
+* @Last Modified time: 2018-05-09 16:19:46
  */
 package controllers
 
@@ -15,7 +15,7 @@ import (
 
 // ============================================================================
 
-type ThumbReq struct {
+type ThumbDelReq struct {
 	SessionKey string `json:"sessionkey"` //session_key
 	Uid        string `json:"uid"`        //用户id
 	ThumbType  string `json:"thumbtype"`  //点赞类型
@@ -25,7 +25,7 @@ type ThumbReq struct {
 
 // ============================================================================
 
-func ThumbHandler(w http.ResponseWriter, r *http.Request) {
+func ThumbDelHandler(w http.ResponseWriter, r *http.Request) {
 	r.ParseForm() //解析参数，默认是不会解析的
 	if r.Method != "POST" {
 		return
@@ -34,12 +34,12 @@ func ThumbHandler(w http.ResponseWriter, r *http.Request) {
 	result, _ := ioutil.ReadAll(r.Body)
 	r.Body.Close()
 
-	var req ThumbReq
+	var req ThumbDelReq
 
 	err := json.Unmarshal([]byte(result), &req)
 	if err != nil {
 		log.Error("json Unmarshal error", result, err)
-		w.Write([]byte(ErrThumbFailed))
+		w.Write([]byte(ErrThumbDelFailed))
 		return
 	}
 
@@ -50,12 +50,12 @@ func ThumbHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if req.ThumbType == "comment" {
-		err = dbmgr.CommentThumbAdd(req.Uid, req.ArticleId, req.CommentId)
+		err = dbmgr.CommentThumbRemove(req.Uid, req.ArticleId, req.CommentId)
 		if err != nil {
 			return
 		}
 	} else {
-		err = dbmgr.ArticleThumbAdd(req.Uid, req.ArticleId)
+		err = dbmgr.ArticleThumbRemove(req.Uid, req.ArticleId)
 		if err != nil {
 			return
 		}

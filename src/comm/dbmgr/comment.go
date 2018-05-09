@@ -2,7 +2,7 @@
 * @Author: huang
 * @Date:   2017-10-26 15:26:00
 * @Last Modified by:   huang
-* @Last Modified time: 2018-05-09 14:52:39
+* @Last Modified time: 2018-05-09 15:19:29
  */
 package dbmgr
 
@@ -215,6 +215,30 @@ func ArticleThumbAdd(uid string, articleid string) error {
 	return err
 }
 
+// 文章取消点赞
+func ArticleThumbRemove(uid string, articleid string) error {
+
+	err := DBCenter.UpdateByCond(
+		CTableComments,
+		db.M{
+			"_id": articleid,
+		},
+		db.M{
+			"$pull": db.M{
+				"thumb": db.M{
+					"uid": uid,
+				},
+			},
+		},
+	)
+
+	if err != nil {
+		log.Warning("ArticleThumbRemove failed:", err)
+	}
+
+	return err
+}
+
 // 文章点赞数，自己是否点赞
 func ArticleThumbNum(uid string, articleid string) (int32, bool) {
 	var obj Comments
@@ -254,6 +278,30 @@ func CommentThumbAdd(uid string, articleid string, commentid string) error {
 		db.M{
 			"$addToSet": db.M{
 				"cmt.$.thumb": th,
+			},
+		},
+	)
+
+	if err != nil {
+		log.Warning("CommentThumbAdd failed:", err)
+	}
+
+	return err
+}
+
+// 评论点赞
+func CommentThumbRemove(uid string, articleid string, commentid string) error {
+	err := DBCenter.UpdateByCond(
+		CTableComments,
+		db.M{
+			"_id":    articleid,
+			"cmt.id": commentid,
+		},
+		db.M{
+			"$pull": db.M{
+				"cmt.$.thumb": db.M{
+					"uid": uid,
+				},
 			},
 		},
 	)
