@@ -9,6 +9,7 @@
         "maxdistance": 5000,
         "anonhead":"../../images/anonhead.png",
         "perreqnum":20,
+        "indeximages":[],
 
         "dbCenter": "mongodb://127.0.0.1:27017/haa_mjc?authSource=admin"
     },
