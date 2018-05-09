@@ -2,13 +2,14 @@
 * @Author: huang
 * @Date:   2017-10-24 17:57:25
 * @Last Modified by:   huang
-* @Last Modified time: 2018-05-08 14:53:37
+* @Last Modified time: 2018-05-09 10:53:16
  */
 package controllers
 
 const (
 	Success             = "0"
-	ErrTokenError       = "1"
+	Failed              = "1"
+	ErrTokenError       = "2"
 	ErrUploadFileFailed = "100"
 	ErrLoginFailed      = "201"
 	ErrEditFailed       = "301"
@@ -17,5 +18,6 @@ const (
 	ErrCommentFailed    = "601"
 	ErrGetCommentFailed = "602"
 	ErrDelArticleFailed = "701"
-	ErrDelCommentFailed = "702"
+	ErrDelCommentFailed = "710"
+	ErrThumbFailed      = "750"
 )

@@ -2,7 +2,7 @@
 * @Author: huang
 * @Date:   2017-10-26 15:26:00
 * @Last Modified by:   huang
-* @Last Modified time: 2018-05-08 18:10:30
+* @Last Modified time: 2018-05-09 11:38:04
  */
 package dbmgr
 
@@ -193,11 +193,48 @@ func CenterDelComment(authorid string, articleid string, commentid string) error
 }
 
 // 文章点赞
-func ArticleThumbAdd(uid string, articleid string, commentid string) {
+func ArticleThumbAdd(uid string, articleid string) error {
+	th := &ThumbOne{Uid: uid}
 
+	err := DBCenter.UpdateByCond(
+		CTableArticles,
+		db.M{
+			"_id": articleid,
+		},
+		db.M{
+			"$addToSet": db.M{
+				"thumb": th,
+			},
+		},
+	)
+
+	if err != nil {
+		log.Warning("ArticleThumbAdd failed:", err)
+	}
+
+	return err
 }
 
 // 评论点赞
-func CommentThumbAdd(uid string, articleid string, commentid string) {
+func CommentThumbAdd(uid string, articleid string, commentid string) error {
+	th := &ThumbOne{Uid: uid}
 
+	err := DBCenter.UpdateByCond(
+		CTableComments,
+		db.M{
+			"_id":    articleid,
+			"cmt.id": commentid,
+		},
+		db.M{
+			"$addToSet": db.M{
+				"cmt.$.thumb": th,
+			},
+		},
+	)
+
+	if err != nil {
+		log.Warning("CommentThumbAdd failed:", err)
+	}
+
+	return err
 }
