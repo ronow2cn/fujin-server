@@ -2,7 +2,7 @@
 * @Author: huang
 * @Date:   2017-10-26 16:25:55
 * @Last Modified by:   huang
-* @Last Modified time: 2018-05-09 14:27:58
+* @Last Modified time: 2018-05-30 20:14:12
  */
 package controllers
 
@@ -34,6 +34,7 @@ type CommentOne struct {
 	Content   string `json:"content"`   //内容
 	ThumbNum  int32  `json:"thumbnum"`  //点赞数
 	SelfThumb bool   `json:"selfthumb"` //自己是否点赞
+	IsAuthor  bool   `json:"isauthor"`  //自己是否是作者
 }
 
 type GetCommentRes struct {
@@ -95,6 +96,10 @@ func GetCommentHandler(w http.ResponseWriter, r *http.Request) {
 		one.Distance = EarthDistance(req.Loc.Coordinates[0], req.Loc.Coordinates[1], v.Loc.Coordinates[0], v.Loc.Coordinates[1])
 		one.Ts = TimeGapStr(v.Ts)
 		one.ThumbNum, one.SelfThumb = dbmgr.CommentThumbNum(req.Uid, req.ArticleId, v.Id)
+
+		if req.Uid == v.CUid {
+			one.IsAuthor = true
+		}
 
 		res.Cmt = append(res.Cmt, one)
 		isRes = true

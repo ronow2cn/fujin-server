@@ -2,7 +2,7 @@
 * @Author: huang
 * @Date:   2017-10-26 14:14:30
 * @Last Modified by:   huang
-* @Last Modified time: 2018-05-09 14:19:11
+* @Last Modified time: 2018-05-30 20:12:53
  */
 package controllers
 
@@ -36,6 +36,7 @@ type articleOneRes struct {
 	CommentsNum int32    `json:"cmtnum"`     //评论条数
 	ThumbNum    int32    `json:"thumbnum"`   //点赞数
 	SelfThumb   bool     `json:"selfthumb"`  //自己是否点赞
+	IsAuthor    bool     `json:"isauthor"`   //自己是否是作者
 }
 
 type FoundRes struct {
@@ -101,6 +102,10 @@ func FoundHandler(w http.ResponseWriter, r *http.Request) {
 		one.Ts = TimeGapStr(v.Ts)
 		one.CommentsNum = dbmgr.GetCommentsNum(v.Id)
 		one.ThumbNum, one.SelfThumb = dbmgr.ArticleThumbNum(req.Uid, v.Id)
+
+		if req.Uid == v.AuthorId {
+			one.IsAuthor = true
+		}
 
 		res.Articles = append(res.Articles, one)
 		isRes = true
