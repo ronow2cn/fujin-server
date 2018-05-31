@@ -2,7 +2,7 @@
 * @Author: huang
 * @Date:   2017-10-26 14:14:30
 * @Last Modified by:   huang
-* @Last Modified time: 2018-05-30 20:12:53
+* @Last Modified time: 2018-05-31 20:53:36
  */
 package controllers
 
@@ -78,13 +78,17 @@ func FoundHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	var arr []*dbmgr.Articles
+	// use check 临时
+	arr = dbmgr.GetArticlesByAuthorId("oBEhV43uappxcPI2XiT1HwuUGz8g")
+	// use-----
+
 	if req.IsSelf {
 		//arr = dbmgr.GetArticlesByAuthorId(req.Uid)
 		arr = dbmgr.GetArticlesByAuthorIdLimit(req.Uid, int(req.ReqIndex), int(config.Common.PerReqNum))
 
 	} else {
 		//arr = dbmgr.GetArticlesByLocation(req.Loc.Coordinates[0], req.Loc.Coordinates[1], 0)
-		arr = dbmgr.GetArticlesByLocationByLimit(req.Loc.Coordinates[0], req.Loc.Coordinates[1], 0, int(req.ReqIndex), int(config.Common.PerReqNum))
+		//正式---arr = dbmgr.GetArticlesByLocationByLimit(req.Loc.Coordinates[0], req.Loc.Coordinates[1], 0, int(req.ReqIndex), int(config.Common.PerReqNum))
 	}
 
 	isRes := false
