@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        {{template "meta.html"}}
+    </head>
+
+    <body class="login-layout blur-login">
+        <div class="main-container">
+            <div class="main-content">
+                <div class="row">
+                    <div class="col-sm-10 col-sm-offset-1">
+                        <div class="login-container">
+                            <div class="center">
+                                <h1>
+                                    <i class="ace-icon fa fa-leaf green"></i>
+                                    <span class="red">Admin</span>
+                                    <span class="white" id="id-text2">管理后台</span>
+                                </h1>
+                                <h4 class="blue" id="id-company-text">&copy; Company Name</h4>
+                            </div>
+
+                            <div class="space-6"></div>
+
+                            <div class="position-relative">
+                                <div id="login-box" class="login-box visible widget-box no-border">
+                                    <div class="widget-body">
+                                        <div class="widget-main">
+                                            <h4 class="header blue lighter bigger">
+                                                <i class="ace-icon fa fa-coffee green"></i>
+                                                请输入用户名和密码
+                                            </h4>
+
+                                            <div class="space-6"></div>
+
+                                            <form id="from-login">
+                                                <fieldset>
+                                                    <label class="block clearfix">
+                                                        <span class="block input-icon input-icon-right">
+                                                            <input type="text" id="username" class="form-control" placeholder="Username" required="required" />
+                                                            <i class="ace-icon fa fa-user"></i>
+                                                        </span>
+                                                    </label>
+
+                                                    <label class="block clearfix">
+                                                        <span class="block input-icon input-icon-right">
+                                                            <input type="password" id="password" class="form-control" placeholder="Password" />
+                                                            <i class="ace-icon fa fa-lock"></i>
+                                                        </span>
+                                                    </label>
+
+                                                    <div class="space"></div>
+
+                                                    <div class="clearfix">
+                                                        <label class="inline">
+                                                            <input type="checkbox" checked="checked" id="rememberPW" class="ace" />
+                                                            <span class="lbl"> 记住我</span>
+                                                        </label>
+
+                                                        <button type="button" id="login-send" class="width-35 pull-right btn btn-sm btn-primary">
+                                                            <i class="ace-icon fa fa-key"></i>
+                                                            <span class="bigger-110">登录</span>
+                                                        </button>
+                                                    </div>
+
+                                                    <div id="suggest" style="color: red"></div>
+                                                    <div class="space-4"></div>
+                                                </fieldset>
+                                            </form>
+                                                                            
+                                        </div><!-- /.widget-main -->
+
+                                    </div><!-- /.widget-body -->
+                                </div><!-- /.login-box -->                      
+                                
+                            </div><!-- /.position-relative -->
+
+                        </div>
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+            </div><!-- /.main-content -->
+        </div><!-- /.main-container -->
+
+        <!-- basic scripts -->
+
+        <!--[if !IE]> -->
+        <script src="/static/assets/js/jquery-2.1.4.min.js"></script>
+
+        <!-- <![endif]-->
+
+        <!--[if IE]>
+<script src="/static/assets/js/jquery-1.11.3.min.js"></script>
+<![endif]-->
+        <script type="text/javascript">
+            if('ontouchstart' in document.documentElement) document.write("<script src='/static/assets/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
+        </script>
+
+        <!-- inline scripts related to this page -->
+        <script type="text/javascript">
+
+            function fromsubmit(){
+                var username = $('#username').val();
+                var password = $('#password').val();
+                if (username.length <= 0 || password.length <= 0){
+                    $("#suggest").show().html("账号密码不能为空");  
+                    return
+                }
+
+                if ($("#rememberPW").is(":checked") ){  
+                    time = 60 ;  
+                }else{
+                    time = 0 ;    
+                }
+
+                setCookie('cookUser', username, time, '/');//set 获取用户名和密码 传给cookie  
+                // setCookie('cookPass', password, time, '/');   
+
+                $.ajax({
+                    url: '/loginreq',
+                    data: {'username':username, 'password':password},
+                    method: 'POST',
+                    success:function(res){
+                        var r = res
+                        if(r.status){
+                            location.href = '/admin/index'
+                        }else{
+                            $("#suggest").show().html(r.info); 
+                        }
+                    }
+                });
+
+            }
+
+            $(function() {
+             $('#login-send').click(function(e) {
+                fromsubmit(); 
+             });
+            });
+
+            //这个就是键盘触发的函数
+            var SubmitOrHidden = function(evt){
+                evt = window.event || evt;
+                if(evt.keyCode==13){//如果取到的键值是回车
+                      fromsubmit();       
+                 }        
+            }
+            window.document.onkeydown=SubmitOrHidden;//当有键按下时执行函数
+
+            var time = 0;
+            $(document).ready(function(){  
+                var username = getCookieValue("cookUser");  
+                //var password = getCookieValue("cookPass");  
+
+                if (username !='' ){//&& password !='' ) {  
+                    $("#username").val(username);  
+                    //$("#password").val(password);  
+                }
+            });
+
+            
+            //hours为空字符串时,cookie的生存期至浏览器会话结束。hours为数字0时,建立的是一个失效的cookie,这个cookie会覆盖已经建立过的同名、同path的cookie（如果这个cookie存在）。   
+            function setCookie(name,value,hours,path){   
+                var name = escape(name);   
+                var value = escape(value);   
+                var expires = new Date();   
+                expires.setTime(expires.getTime() + hours*3600000);   
+                path = path == "" ? "" : ";path=" + path;   
+                _expires = (typeof hours) == "string" ? "" : ";expires=" + expires.toUTCString();   
+                document.cookie = name + "=" + value + _expires + path;   
+            }   
+            //获取cookie值    方法  
+            function getCookieValue(name){   
+                var name = escape(name);   
+                //读cookie属性，这将返回文档的所有cookie   
+                var allcookies = document.cookie;          
+                //查找名为name的cookie的开始位置   
+                name += "=";   
+                var pos = allcookies.indexOf(name);       
+                //如果找到了具有该名字的cookie，那么提取并使用它的值   
+                if (pos != -1){                                             //如果pos值为-1则说明搜索"version="失败   
+                    var start = pos + name.length;                  //cookie值开始的位置   
+                    var end = allcookies.indexOf(";",start);        //从cookie值开始的位置起搜索第一个";"的位置,即cookie值结尾的位置   
+                    if (end == -1) end = allcookies.length;        //如果end值为-1说明cookie列表里只有一个cookie   
+                    var value = allcookies.substring(start,end);  //提取cookie的值   
+                    return unescape(value);                           //对它解码         
+                    }      
+                else return "";                                             //搜索失败，返回空字符串   
+            }  
+    
+        </script>
+    </body>
+</html>

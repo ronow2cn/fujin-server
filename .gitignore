@@ -3,3 +3,8 @@ pkg/
 *.pem
 *.key
 *.DS_Store
+.idea
+*.iml
+*.zip
+*.log
+doc
