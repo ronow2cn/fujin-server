@@ -38,5 +38,8 @@ func init() {
 	beego.Router("/admin/userInfo/save", userInfoController, "post:Save")
 	beego.Router("/admin/userInfo/list", userInfoController, "get:List")
 
+	foundController := &controllers.FoundController{}
+	beego.Router("/admin/found/found", foundController, "*:Found")
+
 	beego.InsertFilter("/admin/*", beego.BeforeRouter, filterAdmin)
 }

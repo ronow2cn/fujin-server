@@ -2,20 +2,29 @@ package main
 
 import (
 	_ "admin/routers"
+	"comm/config"
+	"comm/dbmgr"
+	"comm/logger"
+	"flag"
 	"github.com/astaxie/beego"
-	"github.com/astaxie/beego/orm"
-	_ "github.com/mattn/go-sqlite3"
 )
+
+var log = logger.DefaultLogger
 
 func main() {
 
-	//注册sqlite3
-	orm.RegisterDataBase("default", "sqlite3", "go-admin.db")
-	//同步 ORM 对象和数据库
-	//这时, 在你重启应用的时候, beego 便会自动帮你创建数据库表。
-	orm.Debug = true
+	argFile := flag.String("config", "config.json", "config file")
+	argServer := flag.String("server", "admin", "config file")
+	argLog := flag.String("log", "admin.log", "log file")
 
-	orm.RunSyncdb("default", false, true)
+	flag.Parse()
+	// load config
+	config.Parse(*argFile, *argServer)
+	logger.Open(*argLog)
+
+	dbmgr.Open()
 
 	beego.Run()
+
+	log.Info("admin start")
 }

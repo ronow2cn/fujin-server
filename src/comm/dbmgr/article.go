@@ -176,6 +176,25 @@ func GetArticlesByLocationByLimit(longitude, latitude float64, distance int32, s
 	return
 }
 
+func GetArticlesByLimit(skip, limit int) (ret []*Articles) {
+
+	err := DBCenter.GetObjectsBySkipLimited(
+		CTableArticles,
+		db.M{
+			"isdelete": false,
+		},
+		skip,
+		limit,
+		&ret,
+	)
+
+	if err != nil {
+		log.Error("GetArticlesByLocationByLimit", skip, limit, err)
+	}
+
+	return
+}
+
 // 删除文章
 func CenterDelArticle(authorid string, articleid string) error {
 	err := DBCenter.UpdateByCond(

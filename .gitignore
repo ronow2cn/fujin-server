@@ -8,3 +8,4 @@ pkg/
 *.zip
 *.log
 doc
+*config.json
